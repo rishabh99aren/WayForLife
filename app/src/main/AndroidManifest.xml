@@ -22,9 +22,14 @@
         </activity>
         <activity
             android:name=".UserActivity"
-            android:label="@string/title_activity_user"></activity>
-        <activity android:name=".ImagesActivity"></activity>
-        <activity android:name=".ComplaintsActivity"></activity>
+            android:label="@string/title_activity_user" />
+        <activity android:name=".ImagesActivity" />
+        <activity
+            android:name=".ComplaintsActivity"
+            android:label="Complaints" />
+        <activity
+            android:name=".NewFeedActivity"
+            android:label="News Feed"></activity>
     </application>
 
 </manifest>

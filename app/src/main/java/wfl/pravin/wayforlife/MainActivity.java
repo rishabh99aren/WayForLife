@@ -2,10 +2,9 @@ package wfl.pravin.wayforlife;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,9 +42,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-
-
-                Toast.makeText(getApplicationContext(),"You presed news feed",Toast.LENGTH_LONG).show();
+                Intent i = new Intent(MainActivity.this, NewFeedActivity.class);
+                startActivity(i);
             }
         });
 
