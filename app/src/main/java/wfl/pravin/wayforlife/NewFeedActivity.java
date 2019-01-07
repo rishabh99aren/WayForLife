@@ -1,17 +1,19 @@
 package wfl.pravin.wayforlife;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import wfl.pravin.wayforlife.models.Comment;
 import wfl.pravin.wayforlife.models.Discussion;
 
 public class NewFeedActivity extends AppCompatActivity {
@@ -39,25 +41,50 @@ public class NewFeedActivity extends AppCompatActivity {
 
     public void addNewDiscussion(View view) {
         // this method executes when user clicks on fab to add a new discussion
-        //TODO: open a dialog,let user add a new title
-        //TODO: don't add comments at this stage,for now we just have to add a new discussion
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.getReference().child(DISCUSSIONS).child(USER_CITY).push().
-                setValue(new Discussion(
-                        "title of discussion",
-                        USER_ID,
-                        USER_NAME,
-                        getDummyComments()
-                ));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add new discussion ?");
+        builder.setMessage("Enter the title of discussion");
+
+        final EditText titleEditText = new EditText(this);
+        builder.setView(titleEditText);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addToFirebase(titleEditText);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", null);
+
+        builder.create().show();
     }
 
-    private List<Comment> getDummyComments() {
-        //TODO:  delete this method
-        List<Comment> dummyCommentList = new ArrayList<>();
-        dummyCommentList.add(new Comment("comment1", USER_ID, USER_NAME, Calendar.getInstance().getTime().toString()));
-        dummyCommentList.add(new Comment("comment2", "abua_1357_aja", "mayuri", Calendar.getInstance().getTime().toString()));
-        dummyCommentList.add(new Comment("comment3", "jfdi_7494_noafbf", "nitin", Calendar.getInstance().getTime().toString()));
-
-        return dummyCommentList;
+    private void addToFirebase(EditText titleEditText) {
+        if (titleEditText.getText().toString().trim().length() == 0) {
+            Snackbar.make(findViewById(R.id.discussion_rv), "Title can't be empty", Snackbar.LENGTH_SHORT).show();
+        }
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        firebaseDatabase.getReference()
+                .child(DISCUSSIONS).child(USER_CITY).push()
+                .setValue(new Discussion(
+                        titleEditText.getText().toString(),
+                        USER_ID,
+                        USER_NAME,
+                        null
+                ))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Snackbar.make(findViewById(R.id.discussion_rv), "Discussion added", Snackbar.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Snackbar.make(findViewById(R.id.discussion_rv), "Error adding discussion", Snackbar.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
