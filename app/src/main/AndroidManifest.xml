@@ -29,7 +29,8 @@
             android:label="Complaints" />
         <activity
             android:name=".NewFeedActivity"
-            android:label="News Feed"></activity>
+            android:label="News Feed" />
+        <activity android:name=".AddcomplaintActivity"></activity>
     </application>
 
 </manifest>
