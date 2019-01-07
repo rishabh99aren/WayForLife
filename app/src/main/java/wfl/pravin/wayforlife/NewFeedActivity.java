@@ -8,7 +8,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -47,7 +46,6 @@ public class NewFeedActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.discussion_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
         mDiscussionReference = FirebaseDatabase.getInstance().getReference(DISCUSSIONS).child(USER_CITY);
         mDiscussionReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -101,21 +99,24 @@ public class NewFeedActivity extends AppCompatActivity {
         if (titleEditText.getText().toString().trim().length() == 0) {
             Snackbar.make(findViewById(R.id.discussion_rv), "Title can't be empty", Snackbar.LENGTH_SHORT).show();
         }
-        mDiscussionReference.push().setValue(new Discussion(
-                titleEditText.getText().toString(),
-                USER_ID,
-                USER_NAME,
-                null
-        )).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Snackbar.make(findViewById(R.id.discussion_rv), "Discussion added", Snackbar.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Snackbar.make(findViewById(R.id.discussion_rv), "Error adding discussion", Snackbar.LENGTH_SHORT).show();
-            }
-        });
+        String key = mDiscussionReference.push().getKey();
+        if (key != null) {
+            mDiscussionReference.child(key).setValue(new Discussion(
+                    titleEditText.getText().toString(),
+                    USER_ID,
+                    USER_NAME,
+                    key
+            )).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Snackbar.make(findViewById(R.id.discussion_rv), "Discussion added", Snackbar.LENGTH_SHORT).show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Snackbar.make(findViewById(R.id.discussion_rv), "Error adding discussion", Snackbar.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

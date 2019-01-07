@@ -1,21 +1,19 @@
 package wfl.pravin.wayforlife.models;
 
-import java.util.List;
-
 public class Discussion {
     private String title;
     private String userId;
     private String userName;
-    private List<Comment> comments;
+    private String key;
 
     public Discussion() {
     }
 
-    public Discussion(String title, String userId, String userName, List<Comment> comments) {
+    public Discussion(String title, String userId, String userName, String key) {
         this.title = title;
         this.userId = userId;
         this.userName = userName;
-        this.comments = comments;
+        this.key = key;
     }
 
     public String getTitle() {
@@ -42,12 +40,12 @@ public class Discussion {
         this.userName = userName;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public String getKey() {
+        return key;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Override
@@ -56,7 +54,7 @@ public class Discussion {
                 "title='" + title + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userName='" + userName + '\'' +
-                ", comments=" + comments +
+                ", key=" + key +
                 '}';
     }
 }
