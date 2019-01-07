@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import wfl.pravin.wayforlife.DiscussionClickListener;
 import wfl.pravin.wayforlife.R;
 import wfl.pravin.wayforlife.models.Discussion;
 
@@ -16,9 +17,11 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
     private static final String TAG = "Nitin-DiscussionAdapter";
 
     private List<Discussion> discussionList;
+    private DiscussionClickListener discussionClickListener;
 
-    public DiscussionAdapter(List<Discussion> discussions) {
+    public DiscussionAdapter(List<Discussion> discussions, DiscussionClickListener discussionClickListener) {
         this.discussionList = discussions;
+        this.discussionClickListener = discussionClickListener;
     }
 
     @NonNull
@@ -43,11 +46,20 @@ public class DiscussionAdapter extends RecyclerView.Adapter<DiscussionAdapter.Di
     class DiscussionViewHolder extends RecyclerView.ViewHolder {
         TextView title, userName;
 
-        DiscussionViewHolder(View itemView) {
+        DiscussionViewHolder(final View itemView) {
             super(itemView);
 
             title = itemView.findViewById(R.id.discussion_title);
             userName = itemView.findViewById(R.id.discussion_username);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition();
+                    Discussion d = discussionList.get(pos);
+                    discussionClickListener.discussionClicked(d.getTitle(), d.getUserName(), d.getKey());
+                }
+            });
         }
     }
 }

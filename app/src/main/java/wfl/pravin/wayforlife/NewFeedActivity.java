@@ -36,6 +36,8 @@ public class NewFeedActivity extends AppCompatActivity {
     private static final String DISCUSSIONS = "discussions";
 
     RecyclerView mRecyclerView;
+    private DiscussionClickListener discussionClickListener;
+
     private DatabaseReference mDiscussionReference;
 
     @Override
@@ -46,6 +48,16 @@ public class NewFeedActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.discussion_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        discussionClickListener = new DiscussionClickListener() {
+            @Override
+            public void discussionClicked(String title, String userName, String key) {
+                Intent intent = new Intent(NewFeedActivity.this, DiscussionDetails.class);
+                intent.putExtra(DiscussionDetails.EXTRA_TITLE_KEY, title);
+                intent.putExtra(DiscussionDetails.EXTRA_USER_NAME_KEY, userName);
+                intent.putExtra(DiscussionDetails.EXTRA_DISCUSSION_KEY, key);
+                startActivity(intent);
+            }
+        };
 
         mDiscussionReference = FirebaseDatabase.getInstance().getReference(DISCUSSIONS).child(USER_CITY);
         mDiscussionReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -56,7 +68,7 @@ public class NewFeedActivity extends AppCompatActivity {
                     Discussion d = discussionSnapshot.getValue(Discussion.class);
                     discussionList.add(d);
                 }
-                DiscussionAdapter discussionAdapter = new DiscussionAdapter(discussionList);
+                DiscussionAdapter discussionAdapter = new DiscussionAdapter(discussionList, discussionClickListener);
                 mRecyclerView.setAdapter(discussionAdapter);
             }
 
