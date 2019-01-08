@@ -6,20 +6,19 @@ public class Citycomplaint {
     public String complaint;
     public String city;
     public String timestamp;
+    public String image;
 
     public Citycomplaint() {
     }
 
-    public Citycomplaint(String username) {
-        this.username = username;
-    }
 
-    public Citycomplaint(String userid, String username, String complaint, String city, String timestamp) {
+    public Citycomplaint(String userid, String username, String complaint, String city, String timestamp,String image) {
         this.userid = userid;
         this.username = username;
         this.complaint = complaint;
         this.city = city;
         this.timestamp = timestamp;
+        this.image=image;
     }
 
     public String getUserid() {
@@ -60,5 +59,13 @@ public class Citycomplaint {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

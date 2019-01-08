@@ -14,8 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
 
 public class ComplaintsActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseReference;
