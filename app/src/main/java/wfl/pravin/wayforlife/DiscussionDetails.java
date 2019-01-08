@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -36,7 +38,7 @@ public class DiscussionDetails extends AppCompatActivity {
     private static final String TAG = "Nitin-DiscDetailsActi";
     private static long timesToIgnore = 0;    //used in child event listener
 
-    private String title, username, key;
+    private String title, username, key;    //of selected discussion
     RecyclerView mCommentsRecycerView;
 
     DatabaseReference mCommentsReference;
@@ -48,6 +50,7 @@ public class DiscussionDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_details);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         getExtraFromIntent();
 
@@ -150,6 +153,7 @@ public class DiscussionDetails extends AppCompatActivity {
         EditText newComment = findViewById(R.id.new_comment);
         String commentText = newComment.getText().toString();
         if (commentText.trim().length() > 0) {
+            // TODO : replace name,id with auth data
             Comment comment = new Comment(commentText, "bfbu_2746_bFBUJB", "Nitin Verma", "" + System.currentTimeMillis());
             mCommentsReference.push().setValue(comment);
 
@@ -165,6 +169,16 @@ public class DiscussionDetails extends AppCompatActivity {
         if (imm != null) {
             imm.hideSoftInputFromWindow(Objects.requireNonNull(this.getCurrentFocus()).getWindowToken(), 0);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

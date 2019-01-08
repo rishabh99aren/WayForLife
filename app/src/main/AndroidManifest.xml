@@ -29,8 +29,12 @@
             android:label="Complaints" />
         <activity
             android:name=".NewFeedActivity"
-            android:label="News Feed" />
-        <activity android:name=".DiscussionDetails"></activity>
+            android:label="Discussions"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DiscussionDetails"
+            android:label="Comments"
+            android:parentActivityName=".NewFeedActivity" />
     </application>
 
 </manifest>

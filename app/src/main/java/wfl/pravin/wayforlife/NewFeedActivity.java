@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import wfl.pravin.wayforlife.adapter.DiscussionAdapter;
 import wfl.pravin.wayforlife.models.Discussion;
@@ -32,13 +38,14 @@ public class NewFeedActivity extends AppCompatActivity {
     //TODO: replace after auth module is complete
     private static final String USER_NAME = "Nitin";
     private static final String USER_ID = "aca_2424_vfaffa_2222";
-    private static final String USER_CITY = "Rupnagar";
+    private static final String USER_STATE = "Punjab";
+    private static String USER_CITY = "Rupnagar";
     private static final String DISCUSSIONS = "discussions";
 
     List<Discussion> discussionList;
     RecyclerView mRecyclerView;
     DiscussionAdapter mDiscussionAdapter;
-    private DiscussionClickListener discussionClickListener;
+    AutoCompleteTextView cityAutoCompleteTextView;
 
     private DatabaseReference mDiscussionReference;
 
@@ -46,12 +53,13 @@ public class NewFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feed);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         discussionList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.discussion_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        discussionClickListener = new DiscussionClickListener() {
+        DiscussionClickListener discussionClickListener = new DiscussionClickListener() {
             @Override
             public void discussionClicked(String title, String userName, String key) {
                 Intent intent = new Intent(NewFeedActivity.this, DiscussionDetails.class);
@@ -65,12 +73,19 @@ public class NewFeedActivity extends AppCompatActivity {
         mDiscussionAdapter = new DiscussionAdapter(discussionList, discussionClickListener);
         mRecyclerView.setAdapter(mDiscussionAdapter);
 
+        loadDiscussions();
+
+        loadCities();
+    }
+
+    private void loadDiscussions() {
         final Snackbar loadingDiscussionSnackbar = Snackbar.make(mRecyclerView, "Loading discussions", Snackbar.LENGTH_SHORT);
         loadingDiscussionSnackbar.show();
         mDiscussionReference = FirebaseDatabase.getInstance().getReference(DISCUSSIONS).child(USER_CITY);
         mDiscussionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                discussionList.clear();
                 for (DataSnapshot discussionSnapshot : dataSnapshot.getChildren()) {
                     Discussion d = discussionSnapshot.getValue(Discussion.class);
                     discussionList.add(d);
@@ -83,6 +98,36 @@ public class NewFeedActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 loadingDiscussionSnackbar.dismiss();
                 showSnackbar("Error in loading");
+            }
+        });
+    }
+
+    private void loadCities() {
+        cityAutoCompleteTextView = findViewById(R.id.city);
+        cityAutoCompleteTextView.setText(USER_CITY); //by default value
+
+        FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> cities = (List<String>) dataSnapshot.getValue();
+                        if (cities != null) {
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(NewFeedActivity.this, android.R.layout.simple_dropdown_item_1line, cities);
+                            cityAutoCompleteTextView.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        cityAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                USER_CITY = (String) parent.getItemAtPosition(position);
+                loadDiscussions();
             }
         });
     }
@@ -147,5 +192,15 @@ public class NewFeedActivity extends AppCompatActivity {
 
     private void showSnackbar(String msg) {
         Snackbar.make(findViewById(R.id.discussion_rv), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
