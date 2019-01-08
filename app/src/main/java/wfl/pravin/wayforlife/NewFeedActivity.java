@@ -35,7 +35,9 @@ public class NewFeedActivity extends AppCompatActivity {
     private static final String USER_CITY = "Rupnagar";
     private static final String DISCUSSIONS = "discussions";
 
+    List<Discussion> discussionList;
     RecyclerView mRecyclerView;
+    DiscussionAdapter mDiscussionAdapter;
     private DiscussionClickListener discussionClickListener;
 
     private DatabaseReference mDiscussionReference;
@@ -45,6 +47,7 @@ public class NewFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feed);
 
+        discussionList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.discussion_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -59,22 +62,27 @@ public class NewFeedActivity extends AppCompatActivity {
             }
         };
 
+        mDiscussionAdapter = new DiscussionAdapter(discussionList, discussionClickListener);
+        mRecyclerView.setAdapter(mDiscussionAdapter);
+
+        final Snackbar loadingDiscussionSnackbar = Snackbar.make(mRecyclerView, "Loading discussions", Snackbar.LENGTH_SHORT);
+        loadingDiscussionSnackbar.show();
         mDiscussionReference = FirebaseDatabase.getInstance().getReference(DISCUSSIONS).child(USER_CITY);
         mDiscussionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Discussion> discussionList = new ArrayList<>();
                 for (DataSnapshot discussionSnapshot : dataSnapshot.getChildren()) {
                     Discussion d = discussionSnapshot.getValue(Discussion.class);
                     discussionList.add(d);
                 }
-                DiscussionAdapter discussionAdapter = new DiscussionAdapter(discussionList, discussionClickListener);
-                mRecyclerView.setAdapter(discussionAdapter);
+                mDiscussionAdapter.notifyDataSetChanged();
+                loadingDiscussionSnackbar.dismiss();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                loadingDiscussionSnackbar.dismiss();
+                showSnackbar("Error in loading");
             }
         });
     }
@@ -109,26 +117,35 @@ public class NewFeedActivity extends AppCompatActivity {
 
     private void addToFirebase(EditText titleEditText) {
         if (titleEditText.getText().toString().trim().length() == 0) {
-            Snackbar.make(findViewById(R.id.discussion_rv), "Title can't be empty", Snackbar.LENGTH_SHORT).show();
+            showSnackbar("Title can't be empty");
+            return;
         }
+        final Snackbar addingDiscussionSnackbar = Snackbar.make(findViewById(R.id.discussion_rv), "Adding discussion", Snackbar.LENGTH_SHORT);
+        addingDiscussionSnackbar.show();
+
         String key = mDiscussionReference.push().getKey();
+        final Discussion newDiscussion = new Discussion(titleEditText.getText().toString(), USER_ID, USER_NAME, key);
         if (key != null) {
-            mDiscussionReference.child(key).setValue(new Discussion(
-                    titleEditText.getText().toString(),
-                    USER_ID,
-                    USER_NAME,
-                    key
-            )).addOnSuccessListener(new OnSuccessListener<Void>() {
+            mDiscussionReference.child(key).setValue(newDiscussion).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Snackbar.make(findViewById(R.id.discussion_rv), "Discussion added", Snackbar.LENGTH_SHORT).show();
+                    addingDiscussionSnackbar.dismiss();
+                    discussionList.add(newDiscussion);
+                    mDiscussionAdapter.notifyDataSetChanged();
+                    showSnackbar("Discussion added");
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Snackbar.make(findViewById(R.id.discussion_rv), "Error adding discussion", Snackbar.LENGTH_SHORT).show();
+                    addingDiscussionSnackbar.dismiss();
+                    showSnackbar("Error adding discussion");
                 }
             });
         }
+    }
+
+    private void showSnackbar(String msg) {
+        Snackbar.make(findViewById(R.id.discussion_rv), msg, Snackbar.LENGTH_SHORT).show();
     }
 }
