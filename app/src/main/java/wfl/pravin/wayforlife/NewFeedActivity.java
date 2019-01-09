@@ -165,7 +165,7 @@ public class NewFeedActivity extends AppCompatActivity {
             showSnackbar("Title can't be empty");
             return;
         }
-        final Snackbar addingDiscussionSnackbar = Snackbar.make(findViewById(R.id.discussion_rv), "Adding discussion", Snackbar.LENGTH_SHORT);
+        final Snackbar addingDiscussionSnackbar = Snackbar.make(findViewById(R.id.discussion_rv), "Adding discussion", Snackbar.LENGTH_INDEFINITE);
         addingDiscussionSnackbar.show();
 
         String key = mDiscussionReference.push().getKey();
