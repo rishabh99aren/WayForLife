@@ -79,7 +79,7 @@ public class NewFeedActivity extends AppCompatActivity {
     }
 
     private void loadDiscussions() {
-        final Snackbar loadingDiscussionSnackbar = Snackbar.make(mRecyclerView, "Loading discussions", Snackbar.LENGTH_SHORT);
+        final Snackbar loadingDiscussionSnackbar = Snackbar.make(mRecyclerView, "Loading discussions", Snackbar.LENGTH_INDEFINITE);
         loadingDiscussionSnackbar.show();
         mDiscussionReference = FirebaseDatabase.getInstance().getReference(DISCUSSIONS).child(USER_CITY);
         mDiscussionReference.addListenerForSingleValueEvent(new ValueEventListener() {

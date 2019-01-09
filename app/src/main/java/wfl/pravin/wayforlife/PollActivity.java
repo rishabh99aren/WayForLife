@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +18,17 @@ import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import wfl.pravin.wayforlife.adapter.PollAdapter;
 import wfl.pravin.wayforlife.models.Poll;
 
 public class PollActivity extends AppCompatActivity {
@@ -34,6 +40,10 @@ public class PollActivity extends AppCompatActivity {
     private static final String POLLS = "polls";
     private static String USER_CITY = "Rupnagar";
 
+    List<Poll> pollList;
+    RecyclerView mRecyclerView;
+    PollAdapter mPollAdapter;
+
     DatabaseReference mPollsReference;
     private int optionToCheck = 2;    //used in validation when adding a new dialog
 
@@ -42,13 +52,39 @@ public class PollActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll);
 
+        pollList = new ArrayList<>();
+        mRecyclerView = findViewById(R.id.polls_rv);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mPollAdapter = new PollAdapter(pollList);
+        mRecyclerView.setAdapter(mPollAdapter);
+
         loadPolls();
 
     }
 
     private void loadPolls() {
         mPollsReference = FirebaseDatabase.getInstance().getReference().child(POLLS).child(USER_CITY);
-        //TODO : load polls
+        final Snackbar loadingPollsSnackbar = Snackbar.make(mRecyclerView, "Loading polls", Snackbar.LENGTH_INDEFINITE);
+        loadingPollsSnackbar.show();
+        mPollsReference = FirebaseDatabase.getInstance().getReference(POLLS).child(USER_CITY);
+        mPollsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                pollList.clear();
+                for (DataSnapshot discussionSnapshot : dataSnapshot.getChildren()) {
+                    Poll p = discussionSnapshot.getValue(Poll.class);
+                    pollList.add(p);
+                }
+                mPollAdapter.notifyDataSetChanged();
+                loadingPollsSnackbar.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                loadingPollsSnackbar.dismiss();
+                showSnackbar("Error in loading");
+            }
+        });
     }
 
     public void addNewPoll(View view) {
