@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
+    android:layout_gravity="center"
     android:layout_height="wrap_content"
     android:clipToPadding="true"
     android:elevation="5dp"
@@ -10,32 +11,25 @@
     app:cardCornerRadius="15dp"
     app:contentPaddingBottom="8dp">
 
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:background="@color/colorPrimary"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="Add new Poll"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center">
-
-        <View
-            android:id="@+id/header_background"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="0dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add new Poll"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/header_background"
-            app:layout_constraintEnd_toEndOf="@id/header_background"
-            app:layout_constraintStart_toStartOf="@id/header_background"
-            app:layout_constraintTop_toTopOf="@id/header_background" />
 
         <EditText
             android:id="@+id/poll_title"
@@ -47,18 +41,17 @@
             android:minWidth="150dp"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
+            android:layout_marginTop="?attr/listPreferredItemHeight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_background" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/poll_option1"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_option_poll"
-            android:gravity="center"
             android:hint="Option 1"
-            android:padding="8dp"
+            style="@style/PollOptionsStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/poll_title"
@@ -69,10 +62,8 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/background_option_poll"
-            android:gravity="center"
             android:hint="Option 2"
-            android:padding="8dp"
+            style="@style/PollOptionsStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/poll_option1" />
@@ -82,10 +73,8 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/background_option_poll"
-            android:gravity="center"
             android:hint="Option 3"
-            android:padding="8dp"
+            style="@style/PollOptionsStyle"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,10 +85,8 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/background_option_poll"
-            android:gravity="center"
             android:hint="Option 4"
-            android:padding="8dp"
+            style="@style/PollOptionsStyle"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
