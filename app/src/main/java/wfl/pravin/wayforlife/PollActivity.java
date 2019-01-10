@@ -30,6 +30,7 @@ import java.util.Objects;
 
 import wfl.pravin.wayforlife.adapter.PollAdapter;
 import wfl.pravin.wayforlife.models.Poll;
+import wfl.pravin.wayforlife.models.Vote;
 
 public class PollActivity extends AppCompatActivity {
     //dummy user data
@@ -38,6 +39,7 @@ public class PollActivity extends AppCompatActivity {
     private static final String USER_ID = "aca_2424_vfaffa_2222";
     private static final String USER_STATE = "Punjab";
     private static final String POLLS = "polls";
+    private static final String VOTES = "votes";
     private static String USER_CITY = "Rupnagar";
 
     List<Poll> pollList;
@@ -55,7 +57,33 @@ public class PollActivity extends AppCompatActivity {
         pollList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.polls_rv);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mPollAdapter = new PollAdapter(pollList);
+        OptionClickListener optionClickListener = new OptionClickListener() {
+            @Override
+            public void optionClicked(final VoteAddedListener voteAddedListener, final View optionView, String key) {
+                int option = getOptionFromOptionId(optionView.getId());
+                Vote vote = new Vote(USER_ID, option);
+
+                final Snackbar voteAddingSnackbar = Snackbar.make(mRecyclerView, "Please wait ...", Snackbar.LENGTH_INDEFINITE);
+                voteAddingSnackbar.show();
+                FirebaseDatabase.getInstance().getReference().child(VOTES).child(key).push().setValue(vote)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                voteAddingSnackbar.dismiss();
+                                showSnackbar("Vote added");
+                                voteAddedListener.voteAddedToFirebase(optionView);
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                voteAddingSnackbar.dismiss();
+                                showSnackbar("Try again later");
+                            }
+                        });
+            }
+        };
+        mPollAdapter = new PollAdapter(pollList, optionClickListener);
         mRecyclerView.setAdapter(mPollAdapter);
 
         loadPolls();
@@ -189,5 +217,19 @@ public class PollActivity extends AppCompatActivity {
 
     private void showSnackbar(String msg) {
         Snackbar.make(findViewById(R.id.parent_layout), msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private int getOptionFromOptionId(int id) {
+        switch (id) {
+            case R.id.poll_option1:
+                return 1;
+            case R.id.poll_option2:
+                return 2;
+            case R.id.poll_option3:
+                return 3;
+            case R.id.poll_option4:
+                return 4;
+        }
+        return -1;
     }
 }
