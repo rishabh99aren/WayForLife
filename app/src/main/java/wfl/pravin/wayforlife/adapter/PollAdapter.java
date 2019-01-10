@@ -17,8 +17,7 @@ import wfl.pravin.wayforlife.models.Poll;
 
 public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder> {
     private List<Poll> mPollList;
-    OptionClickListener mOptionClickListener;
-    VoteAddedListener mVoteAddedListener;
+    private OptionClickListener mOptionClickListener;
 
     public PollAdapter(List<Poll> mPollList, OptionClickListener optionClickListener) {
         this.mPollList = mPollList;
@@ -47,6 +46,25 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder
         if (optionList.size() > 3) {
             holder.option4.setVisibility(View.VISIBLE);
             holder.option4.setText(optionList.get(3));
+        }
+
+        if (poll.isVoted()) {
+            holder.removeListeners();
+            int option = (int) poll.getVotedOption();
+            switch (option) {
+                case 1:
+                    holder.changeAppearance(holder.option1);
+                    break;
+                case 2:
+                    holder.changeAppearance(holder.option2);
+                    break;
+                case 3:
+                    holder.changeAppearance(holder.option3);
+                    break;
+                case 4:
+                    holder.changeAppearance(holder.option4);
+                    break;
+            }
         }
     }
 
@@ -78,25 +96,28 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder
             int pos = getAdapterPosition();
             Poll poll = mPollList.get(pos);
 
-            mVoteAddedListener = new VoteAddedListener() {
+            VoteAddedListener mVoteAddedListener = new VoteAddedListener() {
                 @Override
                 public void voteAddedToFirebase(View optionView) {
-                    Context context = optionView.getContext();
-                    TextView textView = (TextView) optionView;
-                    textView.setBackground(context.getDrawable(R.drawable.background_option_poll_selected));
-                    textView.setTextColor(context.getResources().getColor(android.R.color.white));
-
+                    changeAppearance(optionView);
                     removeListeners();
                 }
             };
             mOptionClickListener.optionClicked(mVoteAddedListener, v, poll.getKey());
         }
 
-        public void removeListeners() {
+        void removeListeners() {
             option1.setOnClickListener(null);
             option2.setOnClickListener(null);
             option3.setOnClickListener(null);
             option4.setOnClickListener(null);
+        }
+
+        void changeAppearance(View view) {
+            Context context = view.getContext();
+            TextView textView = (TextView) view;
+            textView.setBackground(context.getDrawable(R.drawable.background_option_poll_selected));
+            textView.setTextColor(context.getResources().getColor(android.R.color.white));
         }
 
     }

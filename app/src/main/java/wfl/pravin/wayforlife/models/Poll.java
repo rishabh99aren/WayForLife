@@ -1,13 +1,36 @@
 package wfl.pravin.wayforlife.models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.List;
 
+@IgnoreExtraProperties
 public class Poll {
     private String title;
     private String userId;
     private String userName;
     private String key;
     private List<String> options;
+
+    // these properties are not mapped in firebase
+    private boolean voted = false;
+    private long votedOption = -1;
+
+    public boolean isVoted() {
+        return voted;
+    }
+
+    public void setVoted(boolean voted) {
+        this.voted = voted;
+    }
+
+    public long getVotedOption() {
+        return votedOption;
+    }
+
+    public void setVotedOption(long votedOption) {
+        this.votedOption = votedOption;
+    }
 
     public Poll() {
     }

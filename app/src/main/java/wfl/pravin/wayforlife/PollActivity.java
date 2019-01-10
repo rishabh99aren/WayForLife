@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +29,6 @@ import java.util.Objects;
 
 import wfl.pravin.wayforlife.adapter.PollAdapter;
 import wfl.pravin.wayforlife.models.Poll;
-import wfl.pravin.wayforlife.models.Vote;
 
 public class PollActivity extends AppCompatActivity {
     //dummy user data
@@ -61,11 +59,10 @@ public class PollActivity extends AppCompatActivity {
             @Override
             public void optionClicked(final VoteAddedListener voteAddedListener, final View optionView, String key) {
                 int option = getOptionFromOptionId(optionView.getId());
-                Vote vote = new Vote(USER_ID, option);
 
                 final Snackbar voteAddingSnackbar = Snackbar.make(mRecyclerView, "Please wait ...", Snackbar.LENGTH_INDEFINITE);
                 voteAddingSnackbar.show();
-                FirebaseDatabase.getInstance().getReference().child(VOTES).child(key).push().setValue(vote)
+                FirebaseDatabase.getInstance().getReference().child(VOTES).child(key).child(USER_ID).setValue(option)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -91,20 +88,46 @@ public class PollActivity extends AppCompatActivity {
     }
 
     private void loadPolls() {
-        mPollsReference = FirebaseDatabase.getInstance().getReference().child(POLLS).child(USER_CITY);
         final Snackbar loadingPollsSnackbar = Snackbar.make(mRecyclerView, "Loading polls", Snackbar.LENGTH_INDEFINITE);
         loadingPollsSnackbar.show();
-        mPollsReference = FirebaseDatabase.getInstance().getReference(POLLS).child(USER_CITY);
-        mPollsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        FirebaseDatabase.getInstance().getReference().child(VOTES).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                pollList.clear();
-                for (DataSnapshot discussionSnapshot : dataSnapshot.getChildren()) {
-                    Poll p = discussionSnapshot.getValue(Poll.class);
-                    pollList.add(p);
-                }
-                mPollAdapter.notifyDataSetChanged();
-                loadingPollsSnackbar.dismiss();
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                //now we have vote data, now get polls
+                mPollsReference = FirebaseDatabase.getInstance().getReference().child(POLLS).child(USER_CITY);
+                mPollsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot1) {
+                        pollList.clear();
+                        for (DataSnapshot discussionSnapshot : dataSnapshot1.getChildren()) {
+                            Poll p = discussionSnapshot.getValue(Poll.class);
+                            if (p != null) {
+                                pollList.add(p);
+
+                                String key = p.getKey();
+                                Object obj = dataSnapshot.child(key).child(USER_ID).getValue();
+                                long option = -1;
+                                if (obj != null) {
+                                    option = (long) obj;
+                                }
+                                if (option > -1) {
+                                    // user has voted for this poll
+                                    p.setVoted(true);
+                                    p.setVotedOption(option);
+                                }
+                            }
+                        }
+                        mPollAdapter.notifyDataSetChanged();
+                        loadingPollsSnackbar.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        loadingPollsSnackbar.dismiss();
+                        showSnackbar("Error in loading");
+                    }
+                });
             }
 
             @Override
@@ -120,10 +143,6 @@ public class PollActivity extends AppCompatActivity {
 
         //init new dialog
         final Dialog dialog = new Dialog(this);
-        DisplayMetrics metrics = getResources().getDisplayMetrics();
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-        //Objects.requireNonNull(dialog.getWindow()).setLayout((6*width)/7,(4*height)/5);
 
         View dialogLayout = LayoutInflater.from(this).inflate(R.layout.dialog_new_poll, null);
         final EditText titleView = dialogLayout.findViewById(R.id.poll_title);
@@ -196,8 +215,8 @@ public class PollActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             addingDiscussionSnackbar.dismiss();
-//                            discussionList.add(newPoll);
-//                            mDiscussionAdapter.notifyDataSetChanged();
+                            pollList.add(newPoll);
+                            mPollAdapter.notifyDataSetChanged();
                             showSnackbar("Poll added");
 
                         }
