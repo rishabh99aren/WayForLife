@@ -3,26 +3,41 @@ package wfl.pravin.wayforlife;
 public class Citycomplaint {
     public String userid;
     public String username;
+    public String complainttitle;
     public String complaint;
     public String city;
     public String timestamp;
     public String image;
+    public String latitude;
+    public String longitude;
 
     public Citycomplaint() {
     }
 
 
-    public Citycomplaint(String userid, String username, String complaint, String city, String timestamp,String image) {
+    public Citycomplaint(String userid, String username, String complainttitle,
+                         String complaint, String city, String timestamp,String image,String latitude,String longitude) {
         this.userid = userid;
         this.username = username;
+        this.complainttitle=complainttitle;
         this.complaint = complaint;
         this.city = city;
         this.timestamp = timestamp;
         this.image=image;
+        this.latitude=latitude;
+        this.longitude=longitude;
     }
 
     public String getUserid() {
         return userid;
+    }
+
+    public String getComplainttitle() {
+        return complainttitle;
+    }
+
+    public void setComplainttitle(String complainttitle) {
+        this.complainttitle = complainttitle;
     }
 
     public void setUserid(String userid) {
@@ -67,5 +82,21 @@ public class Citycomplaint {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

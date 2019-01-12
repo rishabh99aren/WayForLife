@@ -1,24 +1,20 @@
 package wfl.pravin.wayforlife;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.squareup.picasso.Picasso;
-
-import static wfl.pravin.wayforlife.ComplaintRecyclerAdapter.ViewHolder.EXTRA_CITY;
-import static wfl.pravin.wayforlife.ComplaintRecyclerAdapter.ViewHolder.EXTRA_URL;
+import static wfl.pravin.wayforlife.ComplaintsActivity.EXTRA_CITY;
+import static wfl.pravin.wayforlife.ComplaintsActivity.EXTRA_COMPLAINT;
 
 public class DetailcomplaintActivity extends AppCompatActivity {
 
     private ImageView postedimage;
     private TextView postedcity;
-    private DatabaseReference detaildatabaseref;
-    private FirebaseDatabase detailfirebase;
+    private TextView postedcomplaint;
+
 
 
     @Override
@@ -29,13 +25,20 @@ public class DetailcomplaintActivity extends AppCompatActivity {
 
         postedimage=(ImageView)findViewById(R.id.postedimage);
         postedcity=(TextView)findViewById(R.id.postedcity);
+        postedcomplaint=(TextView)findViewById(R.id.postcomplaint);
 
         Intent intent=getIntent();
-        String imageurl=intent.getStringExtra(EXTRA_URL);
+        //String imageurl=intent.getStringExtra(EXTRA_URL);
         String city=intent.getStringExtra(EXTRA_CITY);
+        String complaint=intent.getStringExtra(EXTRA_COMPLAINT);
 
-        Picasso.get().load(imageurl).fit().centerInside().into(postedimage);
+
+      //  Picasso.get().load(imageurl).fit().centerInside().into(postedimage);
         postedcity.setText(city);
+        postedcomplaint.setText(complaint);
+
+
+
     }
 
 }

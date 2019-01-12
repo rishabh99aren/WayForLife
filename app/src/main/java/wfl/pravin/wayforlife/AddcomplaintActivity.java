@@ -4,10 +4,10 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -31,7 +31,7 @@ import java.util.Map;
 public class AddcomplaintActivity extends AppCompatActivity {
 
     private ImageButton mPostImage;
-    private EditText mcomplaint,mcity;
+    private EditText mcomplaint,mcity,mcomplainttitle;
     private Button msubmitButton;
     private DatabaseReference mPostdatabase;
     private ProgressDialog mProgress;
@@ -40,6 +40,7 @@ public class AddcomplaintActivity extends AppCompatActivity {
     private static final int GALLERY_CODE=1;
     private StorageTask muploadtask;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +48,11 @@ public class AddcomplaintActivity extends AppCompatActivity {
 
         mProgress=new ProgressDialog(this);
         mStorage= FirebaseStorage.getInstance().getReference();
-        mPostdatabase=FirebaseDatabase.getInstance().getReference().child("City");
+        mPostdatabase=FirebaseDatabase.getInstance().getReference("Complaints").child("Mumbai");
 
         mPostImage=(ImageButton)findViewById(R.id.imageButton);
         mcomplaint=(EditText)findViewById(R.id.complaintname);
+        mcomplainttitle=(EditText)findViewById(R.id.complainttitle);
         mcity=(EditText)findViewById(R.id.cityname);
         msubmitButton=(Button)findViewById(R.id.submitbutton);
 
@@ -92,30 +94,32 @@ public class AddcomplaintActivity extends AppCompatActivity {
     }
 
     private void startPosting() {
+        final String complainttitle=mcomplainttitle.getText().toString().trim();
 
         final String complaint=mcomplaint.getText().toString().trim();
         final String city=mcity.getText().toString().trim();
 
-        if(!TextUtils.isEmpty(complaint) && !TextUtils.isEmpty(city) && mImageUri!=null){
-
-
-           final StorageReference filepath=mStorage.child("City_images").child(System.currentTimeMillis() + "." +
+        if(!TextUtils.isEmpty(complainttitle) && !TextUtils.isEmpty(complaint) &&
+                !TextUtils.isEmpty(city) && mImageUri!=null){
+            final StorageReference filepath=mStorage.child("City_images").child(System.currentTimeMillis() + "." +
                                                                      getFileExtension(mImageUri));
            muploadtask= filepath.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String downloadurl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
-
+                    Uri downloadurl = taskSnapshot.getUploadSessionUri();
 
                     DatabaseReference newPost = mPostdatabase.push();
 
                     Map<String, String> datatosave = new HashMap<>();
-                    datatosave.put("userid", "fQEJHFKJ   ");
+                    datatosave.put("userid", "fQEJHFKJ".trim());
                     datatosave.put("username", "BFQJh");
+                    datatosave.put("complainttitle",complainttitle);
                     datatosave.put("complaint", complaint);
                     datatosave.put("city", city);
                     datatosave.put("timestamp", String.valueOf(java.lang.System.currentTimeMillis()));
-                    datatosave.put("image",downloadurl);
+                    datatosave.put("image",downloadurl.toString());
+                    datatosave.put("latitude",Double.toString(16.7086212));
+                    datatosave.put("longitude",Double.toString(74.1688269));
                     newPost.setValue(datatosave);
 
                     Toast.makeText(AddcomplaintActivity.this,"Posted the complaint",Toast.LENGTH_LONG).show();
