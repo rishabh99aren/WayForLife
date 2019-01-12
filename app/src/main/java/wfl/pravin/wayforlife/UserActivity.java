@@ -201,7 +201,7 @@ public class UserActivity extends AppCompatActivity {
 
 //Main Statement
 
-                    mDatabaseRef.child(currentDateTimeString).child("Complaint").setValue(data);
+                    mDatabaseRef.child(currentDateTimeString).child("User Report").setValue(data);
                     mDatabaseRef.child(currentDateTimeString).child("Location").setValue(myLocation);
 
 

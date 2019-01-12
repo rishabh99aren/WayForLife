@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AboutUs">
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="293dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="246dp"
+        android:fontFamily="Arial"
+        android:gravity="left"
+        android:text="Name : Way For Life"
+        android:textColor="#000000"
+
+        android:textStyle="normal|bold|italic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:textStyle="normal|bold|italic"
+        android:text="About Us"
+        android:textColor="#000000" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circleImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:src="@drawable/wfl"
+        app:civ_border_color="#FFFFFF"
+        app:civ_border_width="2dp" />
+
+    <TextView
+        android:layout_width="289dp"
+        android:layout_height="106dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="281dp"
+        android:layout_marginTop="52dp"
+        android:fontFamily="Arial"
+        android:gravity="center"
+
+        android:text="Way For Life is a registered Non-Government Organisation started and maintained by Youths of various colleges for development of the society. "
+
+        android:textColor="#000000"
+        android:textSize="15dp"
+        android:textStyle="normal|bold|italic" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="293dp"
+        android:layout_height="112dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62dp"
+        android:fontFamily="Arial"
+        android:gravity="left"
+        android:text="Contact Number : +91 789-999-3789
+                                +91 888-464-1840
+ E-mail – contact@wayforlife.org"
+
+        android:textColor="#000000"
+
+        android:textStyle="normal|bold|italic" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="293dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="193dp"
+        android:fontFamily="Arial"
+        android:gravity="left"
+        android:text="Office : 28,1st cross, 4th main , BTM 4th stage , Bannerghatta road, Bangalore-560076"
+        android:textColor="#000000"
+
+        android:textStyle="normal|bold|italic" />
+
+
+</RelativeLayout>
