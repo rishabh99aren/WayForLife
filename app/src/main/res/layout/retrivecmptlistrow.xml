@@ -44,16 +44,6 @@
             android:textStyle="bold"/>
 
         <Button
-            android:id="@+id/deletebutton"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="3.5dp"
-            android:background="@android:drawable/ic_delete"
-            android:layout_centerInParent="true"
-            android:visibility="visible"
-            android:layout_below="@id/date"/>
-
-        <Button
             android:id="@+id/mapbutton"
             android:layout_width="50dp"
             android:layout_height="50dp"

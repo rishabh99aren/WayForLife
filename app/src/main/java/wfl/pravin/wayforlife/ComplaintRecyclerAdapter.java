@@ -82,7 +82,7 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
         public TextView city;
       //  public static final String CITY_COMPLAINT="userid";
         public TextView Date;
-        public Button deletebutton;
+       // public Button deletebutton;
         public Button mapbutton;
 
         public ViewHolder(@NonNull View view,Context ctx) {
@@ -91,7 +91,7 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
             complaint = (TextView) view.findViewById(R.id.complainttitle);
             city = (TextView) view.findViewById(R.id.city);
             Date = (TextView) view.findViewById(R.id.date);
-            deletebutton = (Button) view.findViewById(R.id.deletebutton);
+           // deletebutton = (Button) view.findViewById(R.id.deletebutton);
             mapbutton=(Button)view.findViewById(R.id.mapbutton);
 
             mapbutton.setOnClickListener(this);
