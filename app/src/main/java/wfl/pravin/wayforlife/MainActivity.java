@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v)
             {
 
-
+                Intent i = new Intent(MainActivity.this,AboutUs.class);
+                startActivity(i);
 
                 Toast.makeText(getApplicationContext(),"You presed about us button",Toast.LENGTH_LONG).show();
             }
