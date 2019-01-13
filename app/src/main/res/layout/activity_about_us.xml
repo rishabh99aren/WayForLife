@@ -39,8 +39,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="67dp"
         android:src="@drawable/wfl"
-        app:civ_border_color="#FFFFFF"
-        app:civ_border_width="2dp" />
+         />
 
     <TextView
         android:layout_width="289dp"
