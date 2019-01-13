@@ -26,10 +26,15 @@
     <activity
         android:name=".UserActivity"
         android:label="@string/title_activity_user">
+
     </activity>
     <activity
         android:name=".ImagesActivity">
     </activity>
+    <activity
+        android:name=".AboutUs">
+    </activity>
+
 </application>
 
 </manifest>
