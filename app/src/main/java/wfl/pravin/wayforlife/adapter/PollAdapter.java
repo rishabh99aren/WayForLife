@@ -36,14 +36,16 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder
         Poll poll = mPollList.get(position);
         List<String> optionList = poll.getOptions();
 
+        holder.initOptions();
+
         holder.title.setText(poll.getTitle());
         holder.option1.setText(optionList.get(0));
         holder.option2.setText(optionList.get(1));
-        if (optionList.size() > 2) {
+        if (optionList.size() == 3) {
             holder.option3.setVisibility(View.VISIBLE);
             holder.option3.setText(optionList.get(2));
         }
-        if (optionList.size() > 3) {
+        if (optionList.size() == 4) {
             holder.option4.setVisibility(View.VISIBLE);
             holder.option4.setText(optionList.get(3));
         }
@@ -85,10 +87,7 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder
             option3 = itemView.findViewById(R.id.poll_option3);
             option4 = itemView.findViewById(R.id.poll_option4);
 
-            option1.setOnClickListener(this);
-            option2.setOnClickListener(this);
-            option3.setOnClickListener(this);
-            option4.setOnClickListener(this);
+            initOptions();
         }
 
         @Override
@@ -98,9 +97,11 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder
 
             VoteAddedListener mVoteAddedListener = new VoteAddedListener() {
                 @Override
-                public void voteAddedToFirebase(View optionView) {
+                public void voteAddedToFirebase(View optionView, int option) {
                     changeAppearance(optionView);
                     removeListeners();
+                    mPollList.get(getAdapterPosition()).setVoted(true);
+                    mPollList.get(getAdapterPosition()).setVotedOption(option);
                 }
             };
             mOptionClickListener.optionClicked(mVoteAddedListener, v, poll.getKey());
@@ -118,6 +119,27 @@ public class PollAdapter extends RecyclerView.Adapter<PollAdapter.PollViewHolder
             TextView textView = (TextView) view;
             textView.setBackground(context.getDrawable(R.drawable.background_option_poll_selected));
             textView.setTextColor(context.getResources().getColor(android.R.color.white));
+        }
+
+        private void initOptions() {
+            Context context = itemView.getContext();
+
+            option3.setVisibility(View.GONE);
+            option4.setVisibility(View.GONE);
+
+            option1.setBackground(context.getDrawable(R.drawable.background_option_poll));
+            option1.setTextColor(context.getResources().getColor(R.color.colorOption));
+            option2.setBackground(context.getDrawable(R.drawable.background_option_poll));
+            option2.setTextColor(context.getResources().getColor(R.color.colorOption));
+            option3.setBackground(context.getDrawable(R.drawable.background_option_poll));
+            option3.setTextColor(context.getResources().getColor(R.color.colorOption));
+            option4.setBackground(context.getDrawable(R.drawable.background_option_poll));
+            option4.setTextColor(context.getResources().getColor(R.color.colorOption));
+
+            option1.setOnClickListener(this);
+            option2.setOnClickListener(this);
+            option3.setOnClickListener(this);
+            option4.setOnClickListener(this);
         }
 
     }

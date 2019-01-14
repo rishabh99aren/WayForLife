@@ -58,7 +58,7 @@ public class PollActivity extends AppCompatActivity {
         OptionClickListener optionClickListener = new OptionClickListener() {
             @Override
             public void optionClicked(final VoteAddedListener voteAddedListener, final View optionView, String key) {
-                int option = getOptionFromOptionId(optionView.getId());
+                final int option = getOptionFromOptionId(optionView.getId());
 
                 final Snackbar voteAddingSnackbar = Snackbar.make(mRecyclerView, "Please wait ...", Snackbar.LENGTH_INDEFINITE);
                 voteAddingSnackbar.show();
@@ -68,7 +68,7 @@ public class PollActivity extends AppCompatActivity {
                             public void onSuccess(Void aVoid) {
                                 voteAddingSnackbar.dismiss();
                                 showSnackbar("Vote added");
-                                voteAddedListener.voteAddedToFirebase(optionView);
+                                voteAddedListener.voteAddedToFirebase(optionView, option);
                             }
                         })
                         .addOnFailureListener(new OnFailureListener() {

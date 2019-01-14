@@ -19,6 +19,8 @@
         <item name="android:padding">8dp</item>
         <item name="android:maxLines">2</item>
         <item name="android:maxLength">30</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorOption</item>
     </style>
 
 </resources>

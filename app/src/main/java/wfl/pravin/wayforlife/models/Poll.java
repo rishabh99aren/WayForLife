@@ -1,5 +1,6 @@
 package wfl.pravin.wayforlife.models;
 
+import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.List;
@@ -13,7 +14,9 @@ public class Poll {
     private List<String> options;
 
     // these properties are not mapped in firebase
+    @Exclude
     private boolean voted = false;
+    @Exclude
     private long votedOption = -1;
 
     public boolean isVoted() {
