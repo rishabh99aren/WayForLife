@@ -11,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -43,6 +46,7 @@ public class PollActivity extends AppCompatActivity {
     List<Poll> pollList;
     RecyclerView mRecyclerView;
     PollAdapter mPollAdapter;
+    AutoCompleteTextView cityAutoCompleteTextView;
 
     DatabaseReference mPollsReference;
     private int optionToCheck = 2;    //used in validation when adding a new dialog
@@ -83,6 +87,7 @@ public class PollActivity extends AppCompatActivity {
         mPollAdapter = new PollAdapter(pollList, optionClickListener);
         mRecyclerView.setAdapter(mPollAdapter);
 
+        loadCities();
         loadPolls();
 
     }
@@ -250,5 +255,35 @@ public class PollActivity extends AppCompatActivity {
                 return 4;
         }
         return -1;
+    }
+
+    private void loadCities() {
+        cityAutoCompleteTextView = findViewById(R.id.city);
+        cityAutoCompleteTextView.setText(USER_CITY); //by default value
+
+        FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> cities = (List<String>) dataSnapshot.getValue();
+                        if (cities != null) {
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(PollActivity.this, android.R.layout.simple_dropdown_item_1line, cities);
+                            cityAutoCompleteTextView.setAdapter(adapter);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+        cityAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                USER_CITY = (String) parent.getItemAtPosition(position);
+                loadPolls();
+            }
+        });
     }
 }
