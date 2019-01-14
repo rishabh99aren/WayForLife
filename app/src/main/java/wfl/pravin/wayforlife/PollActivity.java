@@ -55,6 +55,7 @@ public class PollActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         pollList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.polls_rv);

@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -76,6 +78,13 @@ public class NewFeedActivity extends AppCompatActivity {
         loadDiscussions();
 
         loadCities();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.news_feed_menu, menu);
+        return true;
     }
 
     private void loadDiscussions() {
@@ -200,7 +209,16 @@ public class NewFeedActivity extends AppCompatActivity {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
+            case R.id.action_poll:
+                Intent intent = new Intent(NewFeedActivity.this, PollActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_complaint:
+                Intent intent1 = new Intent(NewFeedActivity.this, ComplaintsActivity.class);
+                startActivity(intent1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
