@@ -23,6 +23,8 @@ public class locationActivity extends FragmentActivity implements OnMapReadyCall
 
     private GoogleMap mMap;
     private DatabaseReference musers;
+    private static final float DEFAULT_ZOOM = 9f;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class locationActivity extends FragmentActivity implements OnMapReadyCall
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        musers= FirebaseDatabase.getInstance().getReference("Complaints").child("Mumbai");
+     //   musers= FirebaseDatabase.getInstance().getReference("Complaints").child("Mumbai");
 
     }
 
@@ -59,6 +61,8 @@ public class locationActivity extends FragmentActivity implements OnMapReadyCall
         mMap.addMarker(new MarkerOptions().position(location)).setIcon(BitmapDescriptorFactory.
                 defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
+
 
     }
 
