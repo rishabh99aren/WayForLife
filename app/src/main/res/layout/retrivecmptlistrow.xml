@@ -19,7 +19,7 @@
             android:layout_marginLeft="3.5dp"
             android:layout_marginRight="3.5dp"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="60dp"
             android:textSize="18sp"
             />
 
@@ -47,6 +47,7 @@
             android:id="@+id/mapbutton"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:background="@drawable/map"
             android:layout_marginRight="10dp"
             android:layout_alignBottom="@id/date"
             android:layout_alignParentRight="true"

@@ -30,6 +30,7 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 
     public static final String EXTRA_COMPLAINT="comaplintname";
     public static final String EXTRA_CITY="cityname";
+    public static final String EXTRA_URL="image";
     private DatabaseReference mDatabaseReference;
     private RecyclerView recyclerView;
     private ComplaintRecyclerAdapter complaintRecyclerAdapter;
@@ -101,7 +102,7 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         List<String> cities= (List<String>) dataSnapshot.getValue();
-                        Log.d("cities", String.valueOf(cities));
+                      //  Log.d("cities", String.valueOf(cities));
                         if(cities!=null){
                             ArrayAdapter<String> adapter=new ArrayAdapter<>(ComplaintsActivity.this,android.R.layout.simple_dropdown_item_1line,cities);
                             cityAutocompleteTextView.setAdapter(adapter);
@@ -166,18 +167,19 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
         });
     }*/
 
-    @Override
+ /*   @Override
     protected void onDestroy() {
         super.onDestroy();
         mDatabaseReference.removeValue();
 
-    }
+    }*/
 //when clicked on the view of recyclerview
     @Override
     public void onItemClick(int position) {
         Intent detailIntent=new Intent(this,DetailcomplaintActivity.class);
         Citycomplaint clickeditem=citycomplaintList.get(position);
 
+        detailIntent.putExtra(EXTRA_URL,clickeditem.getImage());
         detailIntent.putExtra(EXTRA_COMPLAINT,clickeditem.getComplaint());
         detailIntent.putExtra(EXTRA_CITY,clickeditem.getCity());
 

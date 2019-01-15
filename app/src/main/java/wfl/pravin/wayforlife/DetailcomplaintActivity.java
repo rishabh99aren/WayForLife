@@ -6,8 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import static wfl.pravin.wayforlife.ComplaintsActivity.EXTRA_CITY;
 import static wfl.pravin.wayforlife.ComplaintsActivity.EXTRA_COMPLAINT;
+import static wfl.pravin.wayforlife.ComplaintsActivity.EXTRA_URL;
 
 public class DetailcomplaintActivity extends AppCompatActivity {
 
@@ -28,12 +31,12 @@ public class DetailcomplaintActivity extends AppCompatActivity {
         postedcomplaint=(TextView)findViewById(R.id.postcomplaint);
 
         Intent intent=getIntent();
-        //String imageurl=intent.getStringExtra(EXTRA_URL);
+        String imageurl=intent.getStringExtra(EXTRA_URL);
         String city=intent.getStringExtra(EXTRA_CITY);
         String complaint=intent.getStringExtra(EXTRA_COMPLAINT);
 
 
-      //  Picasso.get().load(imageurl).fit().centerInside().into(postedimage);
+        Picasso.get().load(imageurl).into(postedimage);
         postedcity.setText(city);
         postedcomplaint.setText(complaint);
 

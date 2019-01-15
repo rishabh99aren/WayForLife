@@ -80,9 +80,7 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
 
         public TextView complaint;
         public TextView city;
-      //  public static final String CITY_COMPLAINT="userid";
         public TextView Date;
-       // public Button deletebutton;
         public Button mapbutton;
 
         public ViewHolder(@NonNull View view,Context ctx) {
@@ -91,7 +89,6 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
             complaint = (TextView) view.findViewById(R.id.complainttitle);
             city = (TextView) view.findViewById(R.id.city);
             Date = (TextView) view.findViewById(R.id.date);
-           // deletebutton = (Button) view.findViewById(R.id.deletebutton);
             mapbutton=(Button)view.findViewById(R.id.mapbutton);
 
             mapbutton.setOnClickListener(this);
@@ -108,42 +105,6 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
                 }
             });
         }
-            // final int position = getAdapterPosition();
-                  /*  final Citycomplaint citycomplaint = citycomplaintList.get(position);
-                   // final String id=citycomplaint.getUserid();                  /*  Log.d("mayuri",id.trim());*/
-                    /*if ("fQEJHFKJ".equals(citycomplaint.getUserid())) {
-                        alertDialogBuilder = new AlertDialog.Builder(context);
-                        inflater = LayoutInflater.from(context);
-                        View view = inflater.inflate(R.layout.confirmation_dialog, null);
-                        Button yesButton = (Button) view.findViewById(R.id.yesButton);
-                        final Button noButton = (Button) view.findViewById(R.id.noButton);
-                        alertDialogBuilder.setView(view);
-                        dialog = alertDialogBuilder.create();
-                        dialog.show();
-                        noButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-                        yesButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                int positon=getAdapterPosition();
-
-
-                                DatabaseReference db = FirebaseDatabase.getInstance().getReference("City");
-                               // db.child(citycomplaintList.get(position)).removeValue();
-                                //delete();
-
-                                Toast.makeText(context,"deledted",Toast.LENGTH_LONG).show();
-                                dialog.dismiss();
-
-                            }
-                        });
-
-
-                    }*/
 
         @Override
         public void onClick(View v) {
