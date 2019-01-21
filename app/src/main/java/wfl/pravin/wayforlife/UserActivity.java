@@ -253,25 +253,24 @@ public class UserActivity extends AppCompatActivity {
 
 //Main Statement
 
-                    mDatabaseRef.child(currentDateTimeString).child("User Report").setValue(report);
+                    mDatabaseRef.child(currentDateTimeString).child("Complaint").child("User Report").setValue(report);
+                    mDatabaseRef.child(currentDateTimeString).child("Complaint").child("Title ").setValue(title);
 
-                    mDatabaseRef.child(currentDateTimeString).child("Title ").setValue(title);
-
-                    mDatabaseRef.child(currentDateTimeString).child("city").setValue(cityname);
-
-                   mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
+                    mDatabaseRef.child(currentDateTimeString).child("City").child("city").setValue(cityname);
 
                   //  mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
 
 
-                    mDatabaseRef.child(currentDateTimeString).child("Longitude").setValue(longitude);
-                    mDatabaseRef.child(currentDateTimeString).child("Latitude").setValue(latitude);
+                    mDatabaseRef.child(currentDateTimeString).child("My Location").child("Longitude").setValue(longitude);
+                    mDatabaseRef.child(currentDateTimeString).child("My Location").child("Lattitude").setValue(latitude);
+
+                   // mDatabaseRef.child(currentDateTimeString).child("My Locaiton").child("Location").setValue(myLocation);
 
 
                  //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
 
-                    mDatabaseRef.child(currentDateTimeString).child("UserId").setValue("asdf67");
-                    mDatabaseRef.child(currentDateTimeString).child("UserName").setValue("UserName11");
+                    mDatabaseRef.child(currentDateTimeString).child("UserInfo").child("UserId").setValue("asdf67");
+                    mDatabaseRef.child(currentDateTimeString).child("UserInfo").child("UserName").setValue("UserName11");
 
 //                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
 //                        User u = new User(data, "SimpleDate");
