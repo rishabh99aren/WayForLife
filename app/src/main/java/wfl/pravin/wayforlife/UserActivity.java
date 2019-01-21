@@ -264,7 +264,7 @@ public class UserActivity extends AppCompatActivity {
                     mDatabaseRef.child(currentDateTimeString).child("My Location").child("Longitude").setValue(longitude);
                     mDatabaseRef.child(currentDateTimeString).child("My Location").child("Lattitude").setValue(latitude);
 
-                   // mDatabaseRef.child(currentDateTimeString).child("My Locaiton").child("Location").setValue(myLocation);
+                    mDatabaseRef.child(currentDateTimeString).child("My Locaiton").child("Location").setValue(myLocation);
 
 
                  //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
