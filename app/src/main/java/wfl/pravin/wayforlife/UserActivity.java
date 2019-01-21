@@ -15,6 +15,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,23 +46,36 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 
 public class UserActivity extends AppCompatActivity {
+
+    //Declare all the content
+    AutoCompleteTextView autoCompleteTextView;
+    private ArrayAdapter<String> adapter;
+    String [] Country_names;
+
+
     String currentDateTimeString;
     public static final int PICK_IMAGE_REQUIES = 1;
     private Button mButtonChoseImage;
     private Button mButtonUploadImage;
+
     private EditText mEditTextFileName;
+    private EditText mComplaintTitle;
+    private EditText mCityName;
+
     private TextView mTextViewShowUpload;
     private ImageView mImageView;
     private ProgressBar mProgressBass;
     private Uri mImageUri;
     protected LocationListener locationListener;
     protected Context context;
+
+
     String myLocation = null;
     private StorageReference mStaorageRef;
     private DatabaseReference mDatabaseRef;
 
     private StorageTask mUploadTask;
-    Double latitude, longitude;
+    double latitude, longitude;
 
 
     private FusedLocationProviderClient client;
@@ -69,6 +86,19 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+
+         //Get the string array
+       // String[] colors =getResources().getStringArray(R.array.Name);
+
+        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
+        Country_names = getResources().getStringArray(R.array.Country_names);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,Country_names);
+        autoCompleteTextView.setAdapter(adapter);
+
+
+        //Autocomplete code finish here
+
         requestPermission();
 
         client = LocationServices.getFusedLocationProviderClient(this);
@@ -76,12 +106,18 @@ public class UserActivity extends AppCompatActivity {
         mButtonChoseImage = findViewById(R.id.button_chose_image);
         mButtonUploadImage = findViewById(R.id.button_upload_image);
         mTextViewShowUpload = findViewById(R.id.text_view_show_upload);
+
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
+
         mImageView = findViewById(R.id.image_view);
         mProgressBass = findViewById(R.id.progress_bar);
 
-        mStaorageRef = FirebaseStorage.getInstance().getReference("uploads");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
+        mComplaintTitle = findViewById(R.id.ComplaintTitle);
+        mCityName = findViewById(R.id.enteredCity);
+
+
+        mStaorageRef = FirebaseStorage.getInstance().getReference("Complaints");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Complaints");
 
 
         mButtonChoseImage.setOnClickListener(new View.OnClickListener() {
@@ -114,7 +150,8 @@ public class UserActivity extends AppCompatActivity {
 
                 client.getLastLocation().addOnSuccessListener(UserActivity.this, new OnSuccessListener<Location>() {
                     @Override
-                    public void onSuccess(Location location) {
+                    public void onSuccess(Location location)
+                    {
 
                         if(location != null)
                         {
@@ -124,11 +161,25 @@ public class UserActivity extends AppCompatActivity {
                             double lat = location.getLatitude();
                             double longi = location.getLongitude();
                             myLocation = lat +"  " +longi;
+                            latitude =lat;
+                            longitude = longi;
+
+
                             textView2.setText(myLocation);
                         }
                     }
                 });
 
+            }
+        });
+
+
+
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
+                String selection = (String)parent.getItemAtPosition(position);
+                //TODO Do something with the selected text
             }
         });
 
@@ -176,7 +227,8 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void uploadFile() {
-        if (mImageUri != null) {
+        if (mImageUri != null)
+        {
             StorageReference fileReference = mStaorageRef.child(System.currentTimeMillis() + "." + getFileExtention(mImageUri));
             mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -193,19 +245,33 @@ public class UserActivity extends AppCompatActivity {
                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                             taskSnapshot.getDownloadUrl().toString());
 
-                    String data = mEditTextFileName.getText().toString();
-
-
+                    String report = mEditTextFileName.getText().toString();
+                    String title = mComplaintTitle.getText().toString();
+                    String cityname = mCityName.getText().toString();
 
                     String uploadId = mDatabaseRef.push().getKey();
 
 //Main Statement
 
-                    mDatabaseRef.child(currentDateTimeString).child("User Report").setValue(data);
-                    mDatabaseRef.child(currentDateTimeString).child("Location").setValue(myLocation);
+                    mDatabaseRef.child(currentDateTimeString).child("User Report").setValue(report);
+
+                    mDatabaseRef.child(currentDateTimeString).child("Title ").setValue(title);
+
+                    mDatabaseRef.child(currentDateTimeString).child("city").setValue(cityname);
+
+                   mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
+
+                  //  mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
 
 
+                    mDatabaseRef.child(currentDateTimeString).child("Longitude").setValue(longitude);
+                    mDatabaseRef.child(currentDateTimeString).child("Latitude").setValue(latitude);
 
+
+                 //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
+
+                    mDatabaseRef.child(currentDateTimeString).child("UserId").setValue("asdf67");
+                    mDatabaseRef.child(currentDateTimeString).child("UserName").setValue("UserName11");
 
 //                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
 //                        User u = new User(data, "SimpleDate");
@@ -247,5 +313,8 @@ public class UserActivity extends AppCompatActivity {
     {
         ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
     }
+
+
+
 
 }
