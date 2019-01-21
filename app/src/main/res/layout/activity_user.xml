@@ -6,6 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".UserActivity">
 
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="108dp"
+        android:layout_height="34dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="Title:" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,9 +26,9 @@
         android:id="@+id/button_chose_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/location"
-        android:layout_marginTop="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="158dp"
         android:text="Chose Image" />
 
     <ProgressBar
@@ -32,20 +42,34 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="180dp"
-        android:layout_height="97dp"
+        android:layout_width="139dp"
+        android:layout_height="52dp"
 
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="129dp" />
+        android:layout_alignStart="@+id/ComplaintTitle"
+        android:layout_alignTop="@+id/button_chose_image" />
+
+    <EditText
+        android:id="@+id/ComplaintTitle"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignEnd="@+id/location"
+        android:hint="Write Title Here" />
+
+    <EditText
+        android:id="@+id/enteredCity"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/city"
+        android:layout_alignStart="@+id/image_view"
+        android:hint="Enter your city here" />
 
     <EditText
         android:id="@+id/edit_text_file_name"
         android:layout_width="240dp"
-        android:layout_height="95dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="144dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/image_view"
+        android:layout_alignTop="@+id/textView6"
         android:hint="Write Description Here" />
 
     <Button
@@ -70,27 +94,53 @@
         android:hint="Show upload"
         android:textSize="16sp"
         />
-
     <TextView
         android:id="@+id/location"
         android:layout_width="369dp"
-        android:layout_height="59dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="182dp"
-        android:layout_marginStart="13dp"
-        android:visibility="invisible"
-        android:textStyle="bold" />
+        android:layout_marginBottom="128dp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="108dp"
-        android:layout_height="52dp"
+        android:layout_height="35dp"
+        android:layout_alignEnd="@+id/button_chose_image"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="199dp"
+        android:gravity="center"
+        android:text="City:" />
+
+    <TextView
+        android:id="@+id/city"
+        android:layout_width="108dp"
+        android:layout_height="42dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="21dp"
-        android:text="Complaint:"
+        android:layout_marginTop="137dp"
         android:gravity="center"
-        />
+        android:text="City:" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="108dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="Complaint:" />
+
+    <AutoCompleteTextView
+        android:id="@+id/coutry"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignTop="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:hint="Select country" />
+
 
 </RelativeLayout>

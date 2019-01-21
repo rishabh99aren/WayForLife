@@ -1,4 +1,17 @@
 <resources>
     <string name="app_name">WayForLife</string>
     <string name="title_activity_user">UserActivity</string>
+
+    <string-array name="Country_names">
+    <item>Mumbai</item>
+    <item>Delhi</item>
+    <item>Dubai</item>
+    <item>Nagpur</item>
+    <item>Peth</item>
+    <item>Albania</item>
+        <item>American</item>
+    <item>Kalyan</item>
+    <item>Ghatcoper</item>
+    <item>Nasik</item>
+    </string-array>
 </resources>
