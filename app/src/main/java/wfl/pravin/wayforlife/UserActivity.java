@@ -39,7 +39,9 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -253,24 +255,29 @@ public class UserActivity extends AppCompatActivity {
 
 //Main Statement
 
-                    mDatabaseRef.child(currentDateTimeString).child("Complaint").child("User Report").setValue(report);
-                    mDatabaseRef.child(currentDateTimeString).child("Complaint").child("Title ").setValue(title);
+                    mDatabaseRef.child("Complaints").setValue(cityname);
 
-                    mDatabaseRef.child(currentDateTimeString).child("City").child("city").setValue(cityname);
+
+
+                    mDatabaseRef.child("Complaints").child(cityname).child("User Report").setValue(report);
+                    mDatabaseRef.child("Complaints").child(cityname).child("Title ").setValue(title);
 
                   //  mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
 
 
-                    mDatabaseRef.child(currentDateTimeString).child("My Location").child("Longitude").setValue(longitude);
-                    mDatabaseRef.child(currentDateTimeString).child("My Location").child("Lattitude").setValue(latitude);
+                    mDatabaseRef.child("Complaints").child(cityname).child("Longitude").setValue(longitude);
+                    mDatabaseRef.child("Complaints").child(cityname).child("Lattitude").setValue(latitude);
 
-                    mDatabaseRef.child(currentDateTimeString).child("My Locaiton").child("Location").setValue(myLocation);
+                    mDatabaseRef.child("Complaints").child(cityname).child("Location").setValue(myLocation);
 
+                    mDatabaseRef.child("Complaints").child(cityname).child("Date").setValue(currentDateTimeString);
+
+                    mDatabaseRef.child("Complaints").child(cityname).child("Timestamp").setValue(String.valueOf(java.lang.System.currentTimeMillis()));
 
                  //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
 
-                    mDatabaseRef.child(currentDateTimeString).child("UserInfo").child("UserId").setValue("asdf67");
-                    mDatabaseRef.child(currentDateTimeString).child("UserInfo").child("UserName").setValue("UserName11");
+                    mDatabaseRef.child("Complaints").child(cityname).child("UserId").setValue("asdf67");
+                    mDatabaseRef.child("Complaints").child(cityname).child("UserName").setValue("UserName11");
 
 //                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
 //                        User u = new User(data, "SimpleDate");
