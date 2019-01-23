@@ -4,7 +4,7 @@ public class Upload
 {
     private String mName;
     private String mImageUrI;
-
+//    private String mTitle;
     public Upload()
     {
 
@@ -15,7 +15,6 @@ public class Upload
         {
             Discription = "No Name";
         }
-
 
         mName = Discription;
         mImageUrI = imageUrI;
@@ -34,5 +33,13 @@ public class Upload
         mImageUrI = imageUrI;
     }
 
+    //  public String getmTitle()
+    //{
+    //  return mTitle;
+    //}
+    //public void setmTitle(String title)
+    // {
+    //   mTitle = title;
+    //}
 
 }
