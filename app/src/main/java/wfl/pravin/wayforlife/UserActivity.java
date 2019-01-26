@@ -92,7 +92,7 @@ public class UserActivity extends AppCompatActivity {
          //Get the string array
        // String[] colors =getResources().getStringArray(R.array.Name);
 
-        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
+        //autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
         Country_names = getResources().getStringArray(R.array.Country_names);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,Country_names);
@@ -118,7 +118,7 @@ public class UserActivity extends AppCompatActivity {
         mCityName = findViewById(R.id.enteredCity);
 
 
-        mStaorageRef = FirebaseStorage.getInstance().getReference("Complaints");
+        mStaorageRef = FirebaseStorage.getInstance().getReference("Complaints1");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Complaints");
 
 
