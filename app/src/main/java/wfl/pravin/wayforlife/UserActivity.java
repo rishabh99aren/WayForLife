@@ -50,9 +50,9 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class UserActivity extends AppCompatActivity {
 
     //Declare all the content
-    AutoCompleteTextView autoCompleteTextView;
-    private ArrayAdapter<String> adapter;
-    String [] Country_names;
+//    AutoCompleteTextView autoCompleteTextView;
+//    private ArrayAdapter<String> adapter;
+//    String [] Country_names;
 
 
     String currentDateTimeString;
@@ -92,16 +92,16 @@ public class UserActivity extends AppCompatActivity {
          //Get the string array
        // String[] colors =getResources().getStringArray(R.array.Name);
 
-        //autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
-        Country_names = getResources().getStringArray(R.array.Country_names);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,Country_names);
-        autoCompleteTextView.setAdapter(adapter);
-
-
-        //Autocomplete code finish here
-
-        requestPermission();
+//        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
+//        Country_names = getResources().getStringArray(R.array.Country_names);
+//
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,Country_names);
+//        autoCompleteTextView.setAdapter(adapter);
+//
+//
+//        //Autocomplete code finish here
+//
+//        requestPermission();
 
         client = LocationServices.getFusedLocationProviderClient(this);
 
@@ -177,13 +177,13 @@ public class UserActivity extends AppCompatActivity {
 
 
 
-
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-                String selection = (String)parent.getItemAtPosition(position);
-                //TODO Do something with the selected text
-            }
-        });
+//
+//        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
+//                String selection = (String)parent.getItemAtPosition(position);
+//                //TODO Do something with the selected text
+//            }
+//        });
 
         mTextViewShowUpload.setOnClickListener(new View.OnClickListener()
         {
