@@ -44,7 +44,7 @@ public class Upload
     public void setmTitle(String title)
     {
        mTitle = title;
-       
+
     }
 
     public String getCity()
