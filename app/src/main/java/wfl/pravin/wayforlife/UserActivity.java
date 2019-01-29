@@ -60,6 +60,7 @@ public class UserActivity extends AppCompatActivity {
     private Button mButtonChoseImage;
     private Button mButtonUploadImage;
 
+
     private EditText mEditTextFileName;
     private EditText mComplaintTitle;
     private EditText mCityName;
@@ -243,8 +244,11 @@ public class UserActivity extends AppCompatActivity {
                         }
                     }, 500);
 
+                    //Upload Constructor add data which you want to retrive from firebase database...
+
                     Toast.makeText(UserActivity.this, "Upload success", Toast.LENGTH_SHORT).show();
                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
+                            mComplaintTitle.getText().toString().trim(),mCityName.getText().toString().trim(),
                             taskSnapshot.getDownloadUrl().toString());
 
                     String report = mEditTextFileName.getText().toString();
@@ -253,7 +257,7 @@ public class UserActivity extends AppCompatActivity {
 
                     String uploadId = mDatabaseRef.push().getKey();
 
-//Main Statement
+                    //Main Statement
 
                     mDatabaseRef.child("Complaints").setValue(cityname);
 
