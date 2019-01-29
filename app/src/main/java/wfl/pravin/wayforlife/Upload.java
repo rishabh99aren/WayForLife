@@ -2,14 +2,16 @@ package wfl.pravin.wayforlife;
 
 public class Upload
 {
+    private String mTitle;
     private String mName;
+    private String mCityName;
     private String mImageUrI;
 //    private String mTitle;
     public Upload()
     {
 
     }
-    public Upload(String Discription, String imageUrI)
+    public Upload(String Discription, String imageUrI,String title,String cityName)
     {
         if(Discription.trim().equals(""))
         {
@@ -18,6 +20,8 @@ public class Upload
 
         mName = Discription;
         mImageUrI = imageUrI;
+        mTitle = title;
+        mCityName = cityName;
     }
 
     public String getName()
@@ -33,13 +37,26 @@ public class Upload
         mImageUrI = imageUrI;
     }
 
-    //  public String getmTitle()
-    //{
-    //  return mTitle;
-    //}
-    //public void setmTitle(String title)
-    // {
-    //   mTitle = title;
-    //}
+    public String getTitle()
+    {
+      return mTitle;
+    }
+    public void setmTitle(String title)
+    {
+       mTitle = title;
+    }
+
+    public String getCity()
+    {
+        return mCityName;
+    }
+
+    public void setmCityName(String cityName)
+    {
+        mCityName = cityName;
+    }
+
+
+
 
 }
