@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
             {
 
 
-                Uri uri = Uri.parse("http://milap.org/fundraisers/wayforlife?utm_source=shorturl");
+                Uri uri = Uri.parse("https://milaap.org/fundraisers/wayforlife?utm_source=shorturl");
 
                 Intent intent = new Intent(Intent.ACTION_VIEW,uri);
 
