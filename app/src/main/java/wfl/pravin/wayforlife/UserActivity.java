@@ -246,10 +246,14 @@ public class UserActivity extends AppCompatActivity {
 
                     //Upload Constructor add data which you want to retrive from firebase database...
 
+                    String userId = "Asdf";
+                    String userName = "User1";
+
                     Toast.makeText(UserActivity.this, "Upload success", Toast.LENGTH_SHORT).show();
                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                             mComplaintTitle.getText().toString().trim(),mCityName.getText().toString().trim(),
-                            taskSnapshot.getDownloadUrl().toString());
+                            taskSnapshot.getDownloadUrl().toString(),latitude,longitude,userId.toString().trim()
+                    ,userName.toString().trim());
 
                     String report = mEditTextFileName.getText().toString();
                     String title = mComplaintTitle.getText().toString();
@@ -263,7 +267,7 @@ public class UserActivity extends AppCompatActivity {
 
 
 
-                    mDatabaseRef.child("Complaints").child(cityname).child("User Report").setValue(report);
+                    mDatabaseRef.child("Complaints").child(cityname).child("UserReport").setValue(report);
                     mDatabaseRef.child("Complaints").child(cityname).child("Title ").setValue(title);
 
                   //  mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
@@ -272,16 +276,16 @@ public class UserActivity extends AppCompatActivity {
                     mDatabaseRef.child("Complaints").child(cityname).child("Longitude").setValue(longitude);
                     mDatabaseRef.child("Complaints").child(cityname).child("Lattitude").setValue(latitude);
 
-                    mDatabaseRef.child("Complaints").child(cityname).child("Location").setValue(myLocation);
+                  //  mDatabaseRef.child("Complaints").child(cityname).child("Location").setValue(myLocation);
 
-                    mDatabaseRef.child("Complaints").child(cityname).child("Date").setValue(currentDateTimeString);
+                    mDatabaseRef.child("Complaints").child(cityname).child("Timestamp").setValue(currentDateTimeString);
 
-                    mDatabaseRef.child("Complaints").child(cityname).child("Timestamp").setValue(String.valueOf(java.lang.System.currentTimeMillis()));
+                    mDatabaseRef.child("Complaints").child(cityname).child("ImageUrl").setValue(taskSnapshot.getDownloadUrl().toString());
 
                  //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
 
-                    mDatabaseRef.child("Complaints").child(cityname).child("UserId").setValue("asdf67");
-                    mDatabaseRef.child("Complaints").child(cityname).child("UserName").setValue("UserName11");
+                    mDatabaseRef.child("Complaints").child(cityname).child("UserId").setValue(userId);
+                    mDatabaseRef.child("Complaints").child(cityname).child("UserName").setValue(userName);
 
 //                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
 //                        User u = new User(data, "SimpleDate");
