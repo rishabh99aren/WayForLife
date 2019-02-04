@@ -246,18 +246,21 @@ public class UserActivity extends AppCompatActivity {
 
                     //Upload Constructor add data which you want to retrive from firebase database...
 
+
+                    String report = mEditTextFileName.getText().toString();
+                    String title = mComplaintTitle.getText().toString();
+                    String cityname = mCityName.getText().toString();
+
+
                     String userId = "Asdf";
                     String userName = "User1";
+                    String timestamp = currentDateTimeString.toString();
 
                     Toast.makeText(UserActivity.this, "Upload success", Toast.LENGTH_SHORT).show();
                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                             mComplaintTitle.getText().toString().trim(),mCityName.getText().toString().trim(),
                             taskSnapshot.getDownloadUrl().toString(),latitude,longitude,userId.toString().trim()
-                    ,userName.toString().trim());
-
-                    String report = mEditTextFileName.getText().toString();
-                    String title = mComplaintTitle.getText().toString();
-                    String cityname = mCityName.getText().toString();
+                    ,userName.toString().trim(),timestamp.toString().trim());
 
                     String uploadId = mDatabaseRef.push().getKey();
 
@@ -278,7 +281,7 @@ public class UserActivity extends AppCompatActivity {
 
                   //  mDatabaseRef.child("Complaints").child(cityname).child("Location").setValue(myLocation);
 
-                    mDatabaseRef.child("Complaints").child(cityname).child("Timestamp").setValue(currentDateTimeString);
+                    mDatabaseRef.child("Complaints").child(cityname).child("Timestamp").setValue(timestamp);
 
                     mDatabaseRef.child("Complaints").child(cityname).child("ImageUrl").setValue(taskSnapshot.getDownloadUrl().toString());
 
