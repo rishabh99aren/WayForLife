@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/background1"
     android:layout_height="match_parent"
     tools:context=".AboutUs">
 
@@ -13,11 +14,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="86dp"
+        android:fontFamily="Arial"
+        android:gravity="left"
+        android:text="Email                    :  contact@wayforlife.org"
+        android:textColor="#000000"
+
+        android:textStyle="normal|bold|italic" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="293dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="246dp"
         android:fontFamily="Arial"
         android:gravity="left"
         android:text="Name : Way For Life"
         android:textColor="#000000"
+        android:textSize="20sp"
 
         android:textStyle="normal|bold|italic" />
 
@@ -61,15 +77,27 @@
     <TextView
         android:id="@+id/textView2"
         android:layout_width="293dp"
-        android:layout_height="112dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp"
         android:fontFamily="Arial"
         android:gravity="left"
-        android:text="Contact Number : +91 789-999-3789
-                                +91 888-464-1840
- E-mail – contact@wayforlife.org"
+
+        android:text= "                                 +91 888464184"
+        android:textColor="#000000"
+        android:textStyle="normal|bold|italic" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="293dp"
+        android:layout_height="41dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="133dp"
+        android:fontFamily="Arial"
+        android:gravity="left"
+        android:text="Contact Number : +91 789-999-3789"
+
 
         android:textColor="#000000"
 

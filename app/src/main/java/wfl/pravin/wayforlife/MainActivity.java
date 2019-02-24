@@ -2,6 +2,8 @@ package wfl.pravin.wayforlife;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,11 +12,14 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
-    ImageView reportButton,newsFeedButton,bloodReqButton,donateButton,calenderButton,aboutUsButton;
+
+
+    ImageView reportButton,newsFeedButton,bloodReqButton,donateButton,calenderButton,aboutUsButton,addEvents;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
 
         reportButton =(ImageView)findViewById(R.id.userReport);
@@ -23,6 +28,8 @@ public class MainActivity extends AppCompatActivity
         donateButton = (ImageView)findViewById(R.id.donate);
         calenderButton =(ImageView)findViewById(R.id.calender);
         aboutUsButton = (ImageView)findViewById(R.id.aboutUs);
+        addEvents = (ImageView)findViewById(R.id.addEvents);
+
 
 
 
@@ -108,6 +115,18 @@ public class MainActivity extends AppCompatActivity
                 startActivity(i);
 
                 Toast.makeText(getApplicationContext(),"You presed about us button",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        addEvents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+
+                Intent i = new Intent(MainActivity.this,EventAct.class);
+                startActivity(i);
+
+                Toast.makeText(getApplicationContext(),"You presed addEvents us button",Toast.LENGTH_LONG).show();
             }
         });
 

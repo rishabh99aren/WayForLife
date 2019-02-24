@@ -19,7 +19,7 @@ public class Upload
     {
 
     }
-    public Upload(String Discription, String imageUrI,String title,String cityName,
+    public Upload(String Discription,String title,String cityName,String imageUrI,
                   Double lattitude,Double longitude,String userId,String userName,String timestamp)
     {
         if(Discription.trim().equals(""))
@@ -46,10 +46,10 @@ public class Upload
     {
          UserReport = Discription;
     }
-    public void getImageUrl(String imageUrI)
-    {
-        ImageUrl = imageUrI;
-    }
+//    public void getImageUrl(String imageUrI)
+//    {
+//        ImageUrl = imageUrI;
+//    }
 
     public String getTitle()
     {
