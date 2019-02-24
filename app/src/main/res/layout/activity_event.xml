@@ -3,35 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="@drawable/background1"
+    android:layout_height="match_parent"
     tools:context=".UserActivity">
 
     <TextView
         android:id="@+id/event"
         android:layout_width="108dp"
-        android:layout_height="30dp"
+        android:layout_height="32dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="28dp"
+        android:layout_marginStart="100dp"
         android:gravity="center"
-        android:layout_marginStart="10dp"
-        android:text="Title:" />
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Add Event" />
+
+    <TextView
+        android:id="@+id/title2"
+        android:layout_width="108dp"
+        android:layout_height="32dp"
+        android:layout_alignBottom="@+id/ComplaintTitle"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:text="EventTitle" />
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay" />
 
-
-    <Button
-        android:id="@+id/button_chose_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="238dp"
-        android:layout_toStartOf="@+id/ComplaintTitle"
-        android:text="Chose Image" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -42,42 +43,37 @@
         android:layout_alignParentStart="true"
         android:layout_marginBottom="100dp" />
 
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="48dp"
-        android:layout_height="52dp"
-
-        android:layout_alignTop="@+id/button_chose_image"
-        android:layout_toEndOf="@+id/button_upload_image" />
-
     <EditText
         android:id="@+id/ComplaintTitle"
-        android:layout_width="253dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/event"
-        android:background="#ffffff"
-        android:hint="Write Title Here" />
-
-    <EditText
-        android:id="@+id/enteredCity"
-        android:layout_width="256dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/city"
-        android:background="#ffffff"
-        android:hint="Enter your city here" />
-
-    <EditText
-        android:id="@+id/edit_text_file_name"
-        android:layout_width="255dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/textView6"
+        android:layout_alignEnd="@+id/location"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:background="#ffffff"
+        android:hint="Write Event Title Here" />
+
+    <EditText
+        android:id="@+id/complaintTitle3"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/location"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="70dp"
+        android:background="#ffffff"
+        android:hint="Write Event Title Here" />
+
+    <EditText
+        android:id="@+id/edit_text_file_name2"
+        android:layout_width="243dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/ComplaintTitle"
+        android:layout_marginTop="110dp"
         android:background="#ffffff"
         android:gravity="start"
         android:hint="Write Description Here"
-        android:minHeight="100sp" />
+        android:minHeight="100dp" />
 
     <Button
         android:id="@+id/button_upload_image"
@@ -86,7 +82,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignTop="@+id/text_view_show_upload"
         android:layout_marginStart="29dp"
-        android:text="Upload Image" />
+        android:text="Upload Event" />
 
     <TextView
         android:id="@+id/text_view_show_upload"
@@ -101,13 +97,13 @@
         android:hint="Show upload"
         android:textSize="16sp"
         />
-
     <TextView
         android:id="@+id/location"
         android:layout_width="369dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
+        android:layout_marginBottom="128dp"
         android:textStyle="bold"
         android:visibility="invisible" />
 
@@ -124,35 +120,40 @@
         -->
 
     <TextView
-        android:id="@+id/city"
-        android:layout_width="108dp"
-        android:layout_height="30dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="213dp"
-        android:layout_marginStart="10dp"
-        android:gravity="center"
-        android:text="City:" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="108dp"
+        android:layout_height="42dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/edit_text_file_name2"
+        android:gravity="center"
+        android:text="Event Description " />
+
+    <TextView
+        android:id="@+id/dstetime"
+        android:layout_width="108dp"
         android:layout_height="30dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp"
-        android:layout_marginStart="10dp"
+        android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="Complaint:" />
+        android:text="Date and Time " />
 
-  <!--
-    <AutoCompleteTextView
-        android:id="@+id/coutry"
+    <EditText
+        android:id="@+id/date1"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_alignTop="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:hint="Select country" />
-    -->
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/ComplaintTitle"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:inputType="date" />
+
+    <!--
+      <AutoCompleteTextView
+          android:id="@+id/coutry"
+          android:layout_width="wrap_content"
+          android:layout_height="35dp"
+          android:layout_alignTop="@+id/textView"
+          android:layout_centerHorizontal="true"
+          android:hint="Select country" />
+      -->
 
 </RelativeLayout>

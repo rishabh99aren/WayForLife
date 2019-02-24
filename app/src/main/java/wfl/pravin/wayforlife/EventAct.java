@@ -8,17 +8,15 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,26 +26,20 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-
-public class UserActivity extends AppCompatActivity {
+public class EventAct extends AppCompatActivity {
 
     //Declare all the content
 //    AutoCompleteTextView autoCompleteTextView;
@@ -56,7 +48,7 @@ public class UserActivity extends AppCompatActivity {
 
 
     String currentDateTimeString;
-    public static final int PICK_IMAGE_REQUIES = 1;
+    public static final int PICK_IMAGE_REQUIES = 0;
     private Button mButtonChoseImage;
     private Button mButtonUploadImage;
 
@@ -80,6 +72,8 @@ public class UserActivity extends AppCompatActivity {
     private StorageTask mUploadTask;
     double latitude, longitude;
 
+    private EditText mDateTime;
+
 
     private FusedLocationProviderClient client;
 
@@ -87,11 +81,11 @@ public class UserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_event);
 
 
-         //Get the string array
-       // String[] colors =getResources().getStringArray(R.array.Name);
+        //Get the string array
+        // String[] colors =getResources().getStringArray(R.array.Name);
 
 //        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
 //        Country_names = getResources().getStringArray(R.array.Country_names);
@@ -117,29 +111,25 @@ public class UserActivity extends AppCompatActivity {
 
         mComplaintTitle = findViewById(R.id.ComplaintTitle);
         mCityName = findViewById(R.id.enteredCity);
+        mDateTime = findViewById(R.id.date1);
 
 
         mStaorageRef = FirebaseStorage.getInstance().getReference("Complaints1");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("Complaints");
 
 
-        mButtonChoseImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openFileChooser();
-            }
-        });
+//        mButtonChoseImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openFileChooser();
+//            }
+//        });
 
         mButtonUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mUploadTask != null && mUploadTask.isInProgress()) {
-
-
-                } else {
-                    currentDateTimeString = SimpleDateFormat.getDateTimeInstance().format(new Date());
-                    Toast.makeText(UserActivity.this, "Upload is in progress", Toast.LENGTH_SHORT).show();
-                }
+                currentDateTimeString = SimpleDateFormat.getDateTimeInstance().format(new Date());
+                Toast.makeText(EventAct.this, "Upload is in progress", Toast.LENGTH_SHORT).show();
 
                 uploadFile();
 
@@ -147,11 +137,11 @@ public class UserActivity extends AppCompatActivity {
                 //Tacking current Location of user
 
 
-                if (ActivityCompat.checkSelfPermission(UserActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(EventAct.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
 
-                client.getLastLocation().addOnSuccessListener(UserActivity.this, new OnSuccessListener<Location>() {
+                client.getLastLocation().addOnSuccessListener(EventAct.this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location)
                     {
@@ -197,12 +187,12 @@ public class UserActivity extends AppCompatActivity {
 
     }
 
-    private void openFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, PICK_IMAGE_REQUIES);
-    }
+//    private void openFileChooser() {
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intent, PICK_IMAGE_REQUIES);
+//    }
 
 
     //Getting data from EditText For Stiring on Firebase as a description...
@@ -230,92 +220,82 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void uploadFile() {
-        if (mImageUri != null)
-        {
-            StorageReference fileReference = mStaorageRef.child(System.currentTimeMillis() + "." + getFileExtention(mImageUri));
-            mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mProgressBass.setProgress(0);
-                        }
-                    }, 500);
-
-                    //Upload Constructor add data which you want to retrive from firebase database...
 
 
-                    String report = mEditTextFileName.getText().toString();
-                    String title = mComplaintTitle.getText().toString();
-                    String cityname = mCityName.getText().toString();
+        String report = mEditTextFileName.getText().toString();
+        String title = mComplaintTitle.getText().toString();
+        //  String cityname = mCityName.getText().toString();
 
 
-                    String userId = "Asdf";
-                    String userName = "User1";
-                    String timestamp = currentDateTimeString.toString();
-
-                    Toast.makeText(UserActivity.this, "Upload success", Toast.LENGTH_SHORT).show();
-                    Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
-                            mComplaintTitle.getText().toString().trim(),mCityName.getText().toString().trim(),
-                            taskSnapshot.getDownloadUrl().toString(),latitude,longitude,userId.toString().trim()
-                    ,userName.toString().trim(),timestamp.toString().trim());
-
-                    String uploadId = mDatabaseRef.push().getKey();
-
-                    //Main Statement
-
-                    mDatabaseRef.child(uploadId).child("Complaints").setValue(cityname);
+        String datetime = mDateTime.getText().toString();
 
 
 
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("UserReport").setValue(report);
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Title ").setValue(title);
 
-                  //  mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
-
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Longitude").setValue(longitude);
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Lattitude").setValue(latitude);
-
-                  //  mDatabaseRef.child("Complaints").child(cityname).child("Location").setValue(myLocation);
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Timestamp").setValue(timestamp);
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("ImageUrl").setValue(taskSnapshot.getDownloadUrl().toString());
-
-                 //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("UserId").setValue(userId);
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("UserName").setValue(userName);
-
-//                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
-//                        User u = new User(data, "SimpleDate");
-//                       mDatabaseRef.push().setValue(u);
+        String timestamp = currentDateTimeString.toString();
+        Toast.makeText(EventAct.this, "Upload success", Toast.LENGTH_SHORT).show();
+        EventUpload upload = new EventUpload(mEditTextFileName.getText().toString().trim(),
+                mComplaintTitle.getText().toString().trim(),timestamp.toString().trim(),
+                mDateTime.toString().trim());
 
 
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UserActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            })
-            .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
-                {
-                    double onProgress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                    mProgressBass.setProgress((int)onProgress);
-                }
-            });
-        }
-        else
-        {
-            Toast.makeText(this,"No File Selected",Toast.LENGTH_SHORT).show();
-        }
+
+        String uploadId = mDatabaseRef.push().getKey();
+
+        //Main Statement
+        //mDatabaseRef.child("Complaints").setValue("Events");
+
+
+        mDatabaseRef.child("Events").child("UserReport").setValue(report);
+        mDatabaseRef.child("Events").child("Title ").setValue(title);
+
+
+   //     mDatabaseRef.child(uploadId).child("Events").child("Date Time").setValue(datetime);
+
+
+         mDatabaseRef.child("Events").child("Current date").setValue(timestamp);
+         mDatabaseRef.child("Events").child("Date Time").setValue(datetime);
+
+
+//
+//            StorageReference fileReference = mStaorageRef.child(System.currentTimeMillis() + "." + getFileExtention(mImageUri));
+//            mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    Handler handler = new Handler();
+//                    handler.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            mProgressBass.setProgress(0);
+//                        }
+//                    }, 500);
+//
+//                    //Upload Constructor add data which you want to retrive from firebase database...
+//
+//
+//
+////                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
+////                        User u = new User(data, "SimpleDate");
+////                       mDatabaseRef.push().setValue(u);
+//
+//
+//
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Toast.makeText(UserActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//            })
+//            .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onProgress(UploadTask.TaskSnapshot taskSnapshot)
+//                {
+//                    double onProgress = (100.0 * taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
+//                    mProgressBass.setProgress((int)onProgress);
+//                }
+//            });
     }
 
     //Openning file choser
@@ -325,12 +305,11 @@ public class UserActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-  //Asking for permission to user
+    //Asking for permission to user
     private void requestPermission()
     {
         ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
     }
-
 
 
 
