@@ -111,7 +111,7 @@ public class EventAct extends AppCompatActivity {
 
         mComplaintTitle = findViewById(R.id.ComplaintTitle);
         mCityName = findViewById(R.id.enteredCity);
-        mDateTime = findViewById(R.id.date1);
+       // mDateTime = findViewById(R.id.date1);
 
 
         mStaorageRef = FirebaseStorage.getInstance().getReference("Complaints1");
@@ -235,8 +235,7 @@ public class EventAct extends AppCompatActivity {
         String timestamp = currentDateTimeString.toString();
         Toast.makeText(EventAct.this, "Upload success", Toast.LENGTH_SHORT).show();
         EventUpload upload = new EventUpload(mEditTextFileName.getText().toString().trim(),
-                mComplaintTitle.getText().toString().trim(),timestamp.toString().trim(),
-                mDateTime.toString().trim());
+                mComplaintTitle.getText().toString().trim(),timestamp.toString().trim());
 
 
 
@@ -255,7 +254,7 @@ public class EventAct extends AppCompatActivity {
 
 
          mDatabaseRef.child("Events").child("Current date").setValue(timestamp);
-         mDatabaseRef.child("Events").child("Date Time").setValue(datetime);
+       //  mDatabaseRef.child("Events").child("Date Time").setValue(datetime);
 
 
 //

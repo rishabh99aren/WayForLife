@@ -5,7 +5,7 @@ public class EventUpload
 
     private String Title;
     private String UserReport;
-    private String Date1;
+  //  private String Date1;
    private String Timestamp;
 
    //    private String mTitle;
@@ -14,7 +14,7 @@ public class EventUpload
     {
 
     }
-    public EventUpload(String Discription,String title,String timestamp,String date1)
+    public EventUpload(String Discription,String title,String timestamp)
     {
         if(Discription.trim().equals(""))
         {
@@ -26,7 +26,7 @@ public class EventUpload
         Title = title;
       //  CityName = cityName;
         Timestamp =timestamp;
-        Date1 = date1;
+       // Date1 = date1;
     }
 
     public String getName()
@@ -72,14 +72,14 @@ public class EventUpload
         Timestamp = timestamp;
     }
 
-    public String getDate()
-    {
-        return Date1;
-    }
-
-    public void setDate1(String date1)
-    {
-        Date1=date1;
-    }
+//    public String getDate()
+//    {
+//        return Date1;
+//    }
+//
+//    public void setDate1(String date1)
+//    {
+//        Date1=date1;
+//    }
 
 }
