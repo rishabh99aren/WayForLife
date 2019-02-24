@@ -70,12 +70,27 @@
             app:layout_constraintTop_toBottomOf="@+id/complaintname"
             app:layout_constraintVertical_bias="0.031" />
 
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+        <Button
+            android:id="@+id/locationbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add location"/>
+
+
         <Button
             android:id="@+id/submitbutton"
-            android:layout_width="149dp"
+            android:layout_width="117dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20dp"
             android:background="@android:color/holo_orange_light"
             android:text="SUBMIT"
             android:textSize="24sp"
@@ -83,7 +98,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cityname" />
+            app:layout_constraintTop_toBottomOf="@+id/location" />
+
+
 
 
 

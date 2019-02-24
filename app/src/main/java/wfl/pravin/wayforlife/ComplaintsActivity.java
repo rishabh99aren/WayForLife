@@ -13,7 +13,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +42,8 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     private static  String USER_CITY="Mumbai";
     private static  String USER_STATE="Maharashtra";
     AutoCompleteTextView cityAutocompleteTextView;
-
+    private Button signout;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +51,9 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
         setContentView(R.layout.activity_complaints);
 
         mDatabase=FirebaseDatabase.getInstance();
-     //   mDatabaseReference=mDatabase.getReference().child("Complaints").child("Mumbai");
-       // mDatabaseReference.keepSynced(true);
+        mAuth=FirebaseAuth.getInstance();
+
+
 
         citycomplaintList=new ArrayList<>();
 
@@ -57,12 +62,21 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         complaintRecyclerAdapter=new ComplaintRecyclerAdapter(ComplaintsActivity.this,citycomplaintList);
         recyclerView.setAdapter(complaintRecyclerAdapter);
+        signout=(Button)findViewById(R.id.signout);
 
         loadcomplaints();
         loadCities();
 
 
         complaintRecyclerAdapter.setOnItemClickListener(ComplaintsActivity.this);
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                startActivity(new Intent(ComplaintsActivity.this,LoginActivity.class));
+                finish();
+            }
+        });
 
     }
 
@@ -77,6 +91,7 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
                 for(DataSnapshot complaintsnapshot : dataSnapshot.getChildren()){
                     Citycomplaint citycomplaint=complaintsnapshot.getValue(Citycomplaint.class);
                     citycomplaintList.add(citycomplaint);
+                    Collections.reverse(citycomplaintList);
 
 
                 }
@@ -95,7 +110,7 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 
     private void loadCities() {
         cityAutocompleteTextView=findViewById(R.id.autocomplete);
-        cityAutocompleteTextView.setText(USER_CITY);
+        //cityAutocompleteTextView.setText(USER_CITY);
 
         FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
