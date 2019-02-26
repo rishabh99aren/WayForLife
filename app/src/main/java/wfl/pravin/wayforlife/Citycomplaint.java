@@ -12,6 +12,7 @@ public class Citycomplaint {
     public String longitude;
 
     public Citycomplaint() {
+
     }
 
 

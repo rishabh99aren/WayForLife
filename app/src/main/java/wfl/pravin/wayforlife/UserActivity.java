@@ -49,12 +49,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class UserActivity extends AppCompatActivity {
 
-    //Declare all the content
-//    AutoCompleteTextView autoCompleteTextView;
-//    private ArrayAdapter<String> adapter;
-//    String [] Country_names;
-
-
     String currentDateTimeString;
     public static final int PICK_IMAGE_REQUIES = 1;
     private Button mButtonChoseImage;
@@ -90,21 +84,7 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
 
 
-         //Get the string array
-       // String[] colors =getResources().getStringArray(R.array.Name);
-
-//        autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.coutry);
-//        Country_names = getResources().getStringArray(R.array.Country_names);
-//
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,Country_names);
-//        autoCompleteTextView.setAdapter(adapter);
-//
-//
-//        //Autocomplete code finish here
-//
-//        requestPermission();
-
-        client = LocationServices.getFusedLocationProviderClient(this);
+       // client = LocationServices.getFusedLocationProviderClient(this);
 
         mButtonChoseImage = findViewById(R.id.button_chose_image);
         mButtonUploadImage = findViewById(R.id.button_upload_image);
@@ -145,9 +125,7 @@ public class UserActivity extends AppCompatActivity {
 
 
                 //Tacking current Location of user
-
-
-                if (ActivityCompat.checkSelfPermission(UserActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                 if (ActivityCompat.checkSelfPermission(UserActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
 
@@ -178,24 +156,18 @@ public class UserActivity extends AppCompatActivity {
 
 
 
-//
-//        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long rowId) {
-//                String selection = (String)parent.getItemAtPosition(position);
-//                //TODO Do something with the selected text
-//            }
-//        });
 
-        mTextViewShowUpload.setOnClickListener(new View.OnClickListener()
+
+       /* mTextViewShowUpload.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
                 openImagesActivity();
             }
-        });
+        });*/
 
-    }
+    }/*end of oncreate*/
 
     private void openFileChooser() {
         Intent intent = new Intent();
@@ -259,40 +231,25 @@ public class UserActivity extends AppCompatActivity {
                     Toast.makeText(UserActivity.this, "Upload success", Toast.LENGTH_SHORT).show();
                     Upload upload = new Upload(mEditTextFileName.getText().toString().trim(),
                             mComplaintTitle.getText().toString().trim(),mCityName.getText().toString().trim(),
-                            taskSnapshot.getDownloadUrl().toString(),latitude,longitude,userId.toString().trim()
-                    ,userName.toString().trim(),timestamp.toString().trim());
+                            taskSnapshot.getStorage().getDownloadUrl().toString(),Double.toString(latitude),Double.toString(longitude),userId.toString().trim()
+                    ,userName.toString().trim(),String.valueOf(java.lang.System.currentTimeMillis())/*timestamp.toString().trim()*/);
 
                     String uploadId = mDatabaseRef.push().getKey();
 
                     //Main Statement
 
-                    mDatabaseRef.child(uploadId).child("Complaints").setValue(cityname);
-
-
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("UserReport").setValue(report);
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Title ").setValue(title);
-
-                  //  mDatabaseRef.child(currentDateTimeString).child("My Locaiton").setValue(myLocation);
-
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Longitude").setValue(longitude);
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Lattitude").setValue(latitude);
-
-                  //  mDatabaseRef.child("Complaints").child(cityname).child("Location").setValue(myLocation);
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("Timestamp").setValue(timestamp);
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("ImageUrl").setValue(taskSnapshot.getDownloadUrl().toString());
-
-                 //   mDatabaseRef.child(currentDateTimeString).child("City").setValue("Mumbai");
-
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("UserId").setValue(userId);
-                    mDatabaseRef.child(uploadId).child("Complaints").child(cityname).child("UserName").setValue(userName);
-
-//                    mDatabaseRef.child(currentDateTimeString).child("Date").setValue(currentDateTimeString);
-//                        User u = new User(data, "SimpleDate");
-//                       mDatabaseRef.push().setValue(u);
+                    mDatabaseRef.setValue(cityname);
+                    mDatabaseRef.child(cityname).child(uploadId).child("UserReport").setValue(report);
+                    mDatabaseRef.child(cityname).child(uploadId).child("Title ").setValue(title);
+                   // mDatabaseRef.child(cityname).child(uploadId).child("Longitude").setValue(longitude);
+                  //  mDatabaseRef.child(cityname).child(uploadId).child("Lattitude").setValue(latitude);
+                    mDatabaseRef.child(cityname).child(uploadId).child("Lattitude").setValue(Double.toString(19.2406152));
+                    mDatabaseRef.child(cityname).child(uploadId).child("Longitude").setValue(Double.toString(73.0951298));
+                    mDatabaseRef.child(cityname).child(uploadId).child("Timestamp").setValue(timestamp);
+                    mDatabaseRef.child(cityname).child(uploadId).child("ImageUrl").setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
+                    mDatabaseRef.child(cityname).child(uploadId).child("UserId").setValue(userId);
+                    mDatabaseRef.child(cityname).child(uploadId).child("UserName").setValue(userName);
+                    mDatabaseRef.child(cityname).child(uploadId).child("City").setValue(cityname);
 
 
 
@@ -330,6 +287,7 @@ public class UserActivity extends AppCompatActivity {
     {
         ActivityCompat.requestPermissions(this,new String[]{ACCESS_FINE_LOCATION},1);
     }
+
 
 
 

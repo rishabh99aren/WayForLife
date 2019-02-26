@@ -42,10 +42,9 @@
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toTopOf="@+id/firstName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName"
-        app:layout_constraintVertical_bias="0.039" />
+        app:layout_constraintTop_toBottomOf="@+id/autoComplete1"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/firstName"
@@ -72,31 +71,33 @@
         android:id="@+id/passwordAct"
         android:layout_width="360dp"
         android:layout_height="53dp"
+        android:ems="10"
+        android:inputType="textPersonName"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttonofsignout"
-        android:ems="10"
         android:hint="    Enter the password"
+        android:background="@drawable/buttonofsignout"
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailAct"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"/>
 
     <EditText
         android:id="@+id/passwordConfirmAct"
         android:layout_width="360dp"
         android:layout_height="53dp"
+        android:ems="10"
+        android:inputType="textPersonName"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/buttonofsignout"
-        android:ems="10"
         android:textColor="@android:color/background_dark"
         android:hint="    Enter the confirm password"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,16 +115,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:completionThreshold="2"
         android:background="@drawable/buttonofsignout"
         android:completionHint="     Select a city"
+        android:completionThreshold="2"
+        android:hint="   Select a city"
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmAct"
-        app:layout_constraintVertical_bias="0.023" />
+        app:layout_constraintTop_toBottomOf="@+id/autoComplete2"
+        app:layout_constraintVertical_bias="0.013" />
 
     <AutoCompleteTextView
         android:id="@+id/autoComplete2"
@@ -133,15 +134,16 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/background_dark"
         android:background="@drawable/buttonofsignout"
+        android:completionThreshold="2"
+        android:completionHint="  Select a state"
         android:hint="    Select a state "
+        android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoComplete1"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/enterdetails"
+        app:layout_constraintVertical_bias="0.19" />
 
     <Button
         android:id="@+id/createAccount2"
@@ -159,7 +161,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/autoComplete2"
+        app:layout_constraintTop_toBottomOf="@+id/passwordConfirmAct"
         app:layout_constraintVertical_bias="0.211" />
 
     <TextView

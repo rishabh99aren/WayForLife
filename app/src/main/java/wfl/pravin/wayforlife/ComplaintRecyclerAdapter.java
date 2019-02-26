@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecyclerAdapter.ViewHolder> {
     private Context context;
-    private List<Citycomplaint> citycomplaintList;
+    private List<Upload> uploadList;
     private OnitemClickListener mListener;
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog dialog;
@@ -41,10 +41,9 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
         mListener=listener;
     }
 
-    public ComplaintRecyclerAdapter(Context context, List<Citycomplaint> citycomplaintList) {
+    public ComplaintRecyclerAdapter(Context context, List<Upload> uploadList) {
         this.context = context;
-        this.citycomplaintList = citycomplaintList;
-
+        this.uploadList = uploadList;
 
     }
 
@@ -61,19 +60,16 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-        Citycomplaint citycomplaint=citycomplaintList.get(i);
+        Upload upload=uploadList.get(i);
 
-        holder.complaint.setText(citycomplaint.getComplainttitle());
-        holder.city.setText(citycomplaint.getCity());
-
-        java.text.DateFormat dateFormat=java.text.DateFormat.getDateInstance();
-        String formatteddate=dateFormat.format(new Date(Long.valueOf(citycomplaint.getTimestamp())));
-        holder.Date.setText(formatteddate);
+        holder.complaint.setText(upload.getUserReport());
+        holder.city.setText(upload.getCity());
+        holder.Date.setText(upload.getTimestamp());
     }
 
     @Override
     public int getItemCount() {
-        return citycomplaintList.size();
+        return uploadList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -109,10 +105,10 @@ public class ComplaintRecyclerAdapter extends RecyclerView.Adapter<ComplaintRecy
         @Override
         public void onClick(View v) {
             int position=getAdapterPosition();
-            Citycomplaint citycomplaint=citycomplaintList.get(position);
+            Upload upload=uploadList.get(position);
             Intent intents=new Intent(context,locationActivity.class);
-            intents.putExtra("latitude",citycomplaint.getLatitude());
-            intents.putExtra("longitude",citycomplaint.getLongitude());
+            intents.putExtra("latitude",upload.getLattitude());
+            intents.putExtra("longitude",upload.getLongitude());
             context.startActivity(intents);
         }
     }

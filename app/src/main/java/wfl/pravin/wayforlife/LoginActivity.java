@@ -1,6 +1,7 @@
 package wfl.pravin.wayforlife;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -33,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton,resetpassword;
     private TextView createaccount,info;
     private List<LoginActivity> loginActivityList;
-    private EditText emailField,passwordField,emailreset;
+    private EditText emailField,passwordField,emailreset,inputnewpassword;
     private ProgressDialog mProgressDialog;
     private int counter=5;
     private TextView forgotpassword;
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-        mAuthListener=new FirebaseAuth.AuthStateListener() {
+        /*mAuthListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 mUser=firebaseAuth.getCurrentUser();
@@ -85,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
-        };
+        };*/
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,24 +98,25 @@ public class LoginActivity extends AppCompatActivity {
                     String pwd=passwordField.getText().toString();
 
                     login(email,pwd);
+                }else{
+                    mProgressDialog.dismiss();
+                    Toast.makeText(LoginActivity.this,"Enter all the entries",Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
     private void resetpassword() {
-        dialogBuilder=new AlertDialog.Builder(this);
-        View view=getLayoutInflater().inflate(R.layout.resetpassword,null);
-        emailreset=(EditText)view.findViewById(R.id.resetemailrequired);
-        resetpassword=(Button)view.findViewById(R.id.resetpasswordbutton);
-        dialogBuilder.setView(view);
-        dialog=dialogBuilder.create();
-        dialog.show();
-
-        resetpassword.setOnClickListener(new View.OnClickListener() {
+       android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
+        inputnewpassword=new EditText(this);
+        inputnewpassword.setHint("Enter your reistered MailID");
+        builder.setView(inputnewpassword);
+       /* newpassword=new Button(this);
+        newpassword.setText("Reset Password");*/
+        builder.setNeutralButton("ResetPassword", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String email=emailreset.getText().toString().trim();
+            public void onClick(DialogInterface dialog, int which) {
+                String email=inputnewpassword.getText().toString().trim();
                 if(email.equals("")){
                     Toast.makeText(LoginActivity.this,"Enter enter your registered email ID",Toast.LENGTH_SHORT).show();
                 }else{
@@ -123,18 +125,18 @@ public class LoginActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Toast.makeText(LoginActivity.this,"Password reset email sent",Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
+                                mProgressDialog.dismiss();
                             }else {
                                 Toast.makeText(LoginActivity.this,"Error in sending password reset email",Toast.LENGTH_SHORT).show();
                                 //this errror will occur when the email is not registered in database
-                                dialog.dismiss();
+                                mProgressDialog.dismiss();
                             }
 
                         }
                     });
                 }
             }
-        });
+        });builder.show();
 
     }
 
@@ -146,9 +148,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     mProgressDialog.dismiss();
                     emailVerificationdone();
-                   // Toast.makeText(LoginActivity.this,"Signed in",Toast.LENGTH_SHORT).show();
-                    //startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                    //finish();
+
                 }else{
                     mProgressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
@@ -169,8 +169,9 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser firebaseUser=mAuth.getInstance().getCurrentUser();
         Boolean emailverified=firebaseUser.isEmailVerified();
         if(emailverified){
-            startActivity(new Intent(this,MainActivity.class));
             finish();
+            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+
         }else{
             Toast.makeText(this,"Verify your mail",Toast.LENGTH_SHORT).show();
             mAuth.signOut();
@@ -180,14 +181,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+       // mAuth.addAuthStateListener(mAuthListener);
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(mAuthListener!=null){
-            mAuth.removeAuthStateListener(mAuthListener);
+    private void updateUI(FirebaseUser currentUser) {
+        if (currentUser != null) {
+            Intent i = new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(i);
+            this.finish();
         }
     }
+
+
 }

@@ -37,12 +37,11 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     private DatabaseReference mDatabaseReference;
     private RecyclerView recyclerView;
     private ComplaintRecyclerAdapter complaintRecyclerAdapter;
-    private List<Citycomplaint> citycomplaintList;
+    private List<Upload> uploadList;
     private FirebaseDatabase mDatabase;
     private static  String USER_CITY="Mumbai";
     private static  String USER_STATE="Maharashtra";
     AutoCompleteTextView cityAutocompleteTextView;
-    private Button signout;
     private FirebaseAuth mAuth;
 
     @Override
@@ -52,46 +51,40 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 
         mDatabase=FirebaseDatabase.getInstance();
         mAuth=FirebaseAuth.getInstance();
+        mDatabaseReference=mDatabase.getReference().child("Complaints");
+        mDatabaseReference.keepSynced(true);
 
 
 
-        citycomplaintList=new ArrayList<>();
+        uploadList=new ArrayList<>();
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerViewId);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        complaintRecyclerAdapter=new ComplaintRecyclerAdapter(ComplaintsActivity.this,citycomplaintList);
+        complaintRecyclerAdapter=new ComplaintRecyclerAdapter(ComplaintsActivity.this,uploadList);
         recyclerView.setAdapter(complaintRecyclerAdapter);
-        signout=(Button)findViewById(R.id.signout);
 
         loadcomplaints();
         loadCities();
 
 
         complaintRecyclerAdapter.setOnItemClickListener(ComplaintsActivity.this);
-        signout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(ComplaintsActivity.this,LoginActivity.class));
-                finish();
-            }
-        });
 
     }
 
-    private void loadcomplaints() {
+     private void loadcomplaints() {
         final Snackbar loadingcomplaintSnackbar=Snackbar.make(recyclerView,"loading complaints",Snackbar.LENGTH_SHORT);
         loadingcomplaintSnackbar.show();
-        mDatabaseReference=FirebaseDatabase.getInstance().getReference().child("Complaints").child(USER_CITY);
-        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("Complaints").child(USER_CITY).
+        addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                citycomplaintList.clear();
+               // Log.d("wjefuwhgbkahbgjshktb","qbdwgefughuiwhgiquhuyfqgtegt");
+                uploadList.clear();
                 for(DataSnapshot complaintsnapshot : dataSnapshot.getChildren()){
-                    Citycomplaint citycomplaint=complaintsnapshot.getValue(Citycomplaint.class);
-                    citycomplaintList.add(citycomplaint);
-                    Collections.reverse(citycomplaintList);
+                    Upload upload=complaintsnapshot.getValue(Upload.class);
+                    uploadList.add(upload);
+                    Collections.reverse(uploadList);
 
 
                 }
@@ -141,61 +134,15 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 
     }
 
-    //to retrive the data
-  /*  @Override
-    protected void onStart() {
-        super.onStart();
-        citycomplaintList.clear();
 
-        mDatabaseReference.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Citycomplaint citycomplaint=dataSnapshot.getValue(Citycomplaint.class);
-                citycomplaintList.add(citycomplaint);
-                Collections.reverse(citycomplaintList);
-
-
-                complaintRecyclerAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }*/
-
- /*   @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mDatabaseReference.removeValue();
-
-    }*/
 //when clicked on the view of recyclerview
     @Override
     public void onItemClick(int position) {
         Intent detailIntent=new Intent(this,DetailcomplaintActivity.class);
-        Citycomplaint clickeditem=citycomplaintList.get(position);
+        Upload clickeditem=uploadList.get(position);
 
-        detailIntent.putExtra(EXTRA_URL,clickeditem.getImage());
-        detailIntent.putExtra(EXTRA_COMPLAINT,clickeditem.getComplaint());
+        detailIntent.putExtra(EXTRA_URL,clickeditem.getImageUrl());
+        detailIntent.putExtra(EXTRA_COMPLAINT,clickeditem.getUserReport());
         detailIntent.putExtra(EXTRA_CITY,clickeditem.getCity());
 
         startActivity(detailIntent);

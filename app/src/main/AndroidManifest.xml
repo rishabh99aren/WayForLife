@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,6 +24,7 @@
             android:name=".UserActivity"
             android:label="@string/title_activity_user" />
         <activity android:name=".ImagesActivity" />
+        <activity android:name=".EventAct" />
         <activity
             android:name=".ComplaintsActivity"
             android:label="Complaints" />
@@ -32,6 +32,7 @@
             android:name=".NewFeedActivity"
             android:label="News Feed" />
         <activity android:name=".AddcomplaintActivity" />
+        <activity android:name=".AboutUs" />
         <activity android:name=".DetailcomplaintActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -49,21 +50,11 @@
             android:name=".locationActivity"
             android:label="@string/title_activity_location" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".CreateAccountActivity"></activity>
+        <activity android:name=".CreateAccountActivity" />
+        <activity android:name=".SplashActivity" />
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
-
-    <activity
-        android:name=".UserActivity"
-        android:label="@string/title_activity_user">
-
-    </activity>
-    <activity
-        android:name=".ImagesActivity">
-    </activity>
-    <activity
-        android:name=".AboutUs">
-    </activity>
-
-</application>
 
 </manifest>

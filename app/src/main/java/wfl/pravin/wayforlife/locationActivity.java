@@ -23,7 +23,7 @@ public class locationActivity extends FragmentActivity implements OnMapReadyCall
 
     private GoogleMap mMap;
     private DatabaseReference musers;
-    private static final float DEFAULT_ZOOM = 9f;
+    private static final float DEFAULT_ZOOM = 8f;
 
 
     @Override

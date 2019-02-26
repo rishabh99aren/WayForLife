@@ -14,14 +14,13 @@
 
         <TextView
             android:id="@+id/complainttitle"
-            android:layout_marginTop="3.5dp"
-            android:text="complaint"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
             android:layout_marginLeft="3.5dp"
             android:layout_marginRight="3.5dp"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:textSize="18sp"
-            />
+            android:layout_marginTop="3.5dp"
+            android:text="complaint"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/city"
@@ -31,6 +30,7 @@
             android:text="city"
             android:layout_marginLeft="3.5dp"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:layout_below="@id/complainttitle"/>
         <TextView
             android:id="@+id/date"

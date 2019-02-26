@@ -44,8 +44,8 @@
 
     <ImageView
         android:id="@+id/image_view"
-        android:layout_width="48dp"
-        android:layout_height="52dp"
+        android:layout_width="218dp"
+        android:layout_height="150dp"
 
         android:layout_alignTop="@+id/button_chose_image"
         android:layout_toEndOf="@+id/button_upload_image" />

@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,11 +42,12 @@ public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog mProgressDialog;
     private TextView havelogin;
-    private static String USER_STATE="Delhi";
-    private static String USER_CITY="Mumbai";
+    private static String USER_STATE="aekjfnK";
+    // private static String USER_STATE="EHFJAEBHT";
+    private static String USER_CITY="efhbWRHJ";
 
     AutoCompleteTextView autoCompleteTextView1,autoCompleteTextView2;
-    private static final String[] COUNTRIES=new String[]{"Maharashtra","Delhi","Assam","Chandigarh"};
+    private static final String[] COUNTRIES=new String[]{"Maharashtra","Assam","Chandigarh"};
 
 
 
@@ -70,6 +72,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         havelogin=(TextView)findViewById(R.id.Logindirected);
         createAccount=(Button)findViewById(R.id.createAccount2);
         mProgressDialog=new ProgressDialog(this);
+        loadstatesforregistration();
         loadCitesforregistration();
      //   loadstates();
 
@@ -103,94 +106,74 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    private void loadCitesforregistration() {
-        autoCompleteTextView1=findViewById(R.id.autoComplete1);
-
-
-        FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+    private void loadstatesforregistration() {
+        autoCompleteTextView2=findViewById(R.id.autoComplete2);
+        FirebaseDatabase.getInstance().getReference().child("states").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //Log.d("cictiesmayuripawar","aenfhbQKUH HGOU AUVNYIOUNIEBIOUOEIVUY7W3O5YIJ3VU988YN9VUW7");
-               List<String> cities= (List<String>) dataSnapshot.getValue();
-                if(cities!=null){
-                    ArrayAdapter<String> adapter=new ArrayAdapter<>(CreateAccountActivity.this,android.R.layout.simple_dropdown_item_1line,cities);
-                    autoCompleteTextView1.setAdapter(adapter);
-                }
+                List<String> states=(List<String>)dataSnapshot.getValue();
+                if(states!=null){
+                    ArrayAdapter<String> adapter=new ArrayAdapter<>(CreateAccountActivity.this,android.R.layout.simple_dropdown_item_1line,states);
+                    autoCompleteTextView2.setAdapter(adapter);
 
+                  //  loadCitesforregistration();
+
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
-      /*  autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        });autoCompleteTextView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                USER_CITY = (String) parent.getItemAtPosition(position);
+                USER_STATE = (String) parent.getItemAtPosition(position);
+                loadCitesforregistration();
             }
-        });*/
+        });
 
     }
 
-   /* private void loadcities() {
-        Log.d("cities", "be calm and stray strig"/*String.valueOf(cities));*/
-
-        /*autoCompleteTextView2=(AutoCompleteTextView)findViewById(R.id.autoComplete2);
+    private void loadCitesforregistration() {
+        autoCompleteTextView1 = findViewById(R.id.autoComplete1);
+        //String statetext = autoCompleteTextView2.getText().toString().trim();
 
         FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                      //  List<String> cities= (List<String>) dataSnapshot.getValue();
-                        Log.d("cities", "be calm and stray strig ehqFIUHGIYGIGUIHUY"/*String.valueOf(cities));
-                       /* if(cities!=null){
-                            ArrayAdapter<String> adapter1=new ArrayAdapter<>(CreateAccountActivity.this,android.R.layout.simple_dropdown_item_1line,cities);
-                            autoCompleteTextView2.setAdapter(adapter1);
-                        }*/
-                    //}
+                        //Log.d("cictiesmayuripawar","aenfhbQKUH HGOU AUVNYIOUNIEBIOUOEIVUY7W3O5YIJ3VU988YN9VUW7");
+                        List<String> cities = (List<String>) dataSnapshot.getValue();
+                        if (cities != null) {
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(CreateAccountActivity.this, android.R.layout.simple_dropdown_item_1line, cities);
+                            autoCompleteTextView1.setAdapter(adapter);
+                        }
 
-                    /*@Override
+                    }
+
+                    @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                       // Log.d("cities", "be calm and stray strig"/*String.valueOf(cities));*/
 
-                //    }*/
-              //  });*/
-
-    //}
-
-  /* private void loadstates() {
-        autoCompleteTextView1=(AutoCompleteTextView)findViewById(R.id.autocomplete1);
-        autoCompleteTextView1.setText(USER_STATE);
-
-
-        FirebaseDatabase.getInstance().getReference().child("states")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    }
+                });
+        autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> states=(List<String>) dataSnapshot.getValue();
-               // Log.d("cities", String.valueOf(states));
-                if(states!=null){
-                    ArrayAdapter<String> adapter=new ArrayAdapter<>(CreateAccountActivity.this,android.R.layout.simple_dropdown_item_1line,states);
-                    autoCompleteTextView1.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                USER_CITY = (String) parent.getItemAtPosition(position);
             }
         });
-    }*/
+    }
 
-    private void createNewAccount() {
+
+
+   private void createNewAccount() {
         final String uname=username.getText().toString().trim();
         String email=emailact.getText().toString().trim();
         String password=passwordact.getText().toString().trim();
         String confirmpassword=confirmpwd.getText().toString().trim();
-        final String ccity=city.getText().toString().trim();
-        final String cstate=state.getText().toString().trim();
+     /*   final String ccity=city.getText().toString().trim();
+        final String cstate=state.getText().toString().trim();*/
 
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailact.setError("Please enter a valid email");
@@ -203,10 +186,8 @@ public class CreateAccountActivity extends AppCompatActivity {
             return;
         }
 
-
-
         if(!TextUtils.isEmpty(uname) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)
-                && !TextUtils.isEmpty(ccity) && !TextUtils.isEmpty(cstate)){
+                && !TextUtils.isEmpty(confirmpassword) /*&& !TextUtils.isEmpty(cstate)*/){
 
             if(password.equals(confirmpassword) ){
 
@@ -222,7 +203,14 @@ public class CreateAccountActivity extends AppCompatActivity {
 
 
                         }else{
-                            Toast.makeText(CreateAccountActivity.this,"Registration failed",Toast.LENGTH_SHORT).show();
+                            if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                mProgressDialog.dismiss();
+                                Toast.makeText(CreateAccountActivity.this,"Email is already registered.Use another mail",Toast.LENGTH_SHORT).show();
+                            }else{
+                                mProgressDialog.dismiss();
+                                Toast.makeText(CreateAccountActivity.this,"Registration failed",Toast.LENGTH_SHORT).show();
+
+                            }
                         }
                     }
                 });
@@ -248,8 +236,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                             DatabaseReference currentuserdb = mDatabasereference.child(userid);
                             currentuserdb.child("Username").setValue(username.getText().toString().trim());
                             currentuserdb.child("Userid").setValue(userid);
-                            currentuserdb.child("City").setValue(city.getText().toString().trim());
-                            currentuserdb.child("State").setValue(state.getText().toString().trim());
+                            currentuserdb.child("City").setValue(USER_CITY);
+                            currentuserdb.child("State").setValue(USER_STATE);
+                            currentuserdb.child("Email").setValue(emailact.getText().toString().trim());
+                            /*currentuserdb.child("City").setValue(city.getText().toString().trim());
+                            currentuserdb.child("State").setValue(state.getText().toString().trim());*/
                             mProgressDialog.dismiss();
                         mAuth.signOut();
                         startActivity(new Intent(CreateAccountActivity.this,LoginActivity.class));

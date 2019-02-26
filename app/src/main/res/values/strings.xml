@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">WayForLife</string>
-    <string name="title_activity_user">UserActivity</string>
+    <string name="title_activity_user">Report Problem</string>
 
     <string-array name="Country_names">
         <item>Mumbai</item>
@@ -16,5 +16,6 @@
     </string-array>
     <string name="title_activity_add_event">AddEvent</string>
     <string name="title_activity_location">Map</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
