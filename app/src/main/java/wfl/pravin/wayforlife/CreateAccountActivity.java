@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -40,7 +41,9 @@ public class CreateAccountActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog mProgressDialog;
     private TextView havelogin;
-    private static String USER_STATE="Maharashtra";
+    private static String USER_STATE="Delhi";
+    private static String USER_CITY="Mumbai";
+
     AutoCompleteTextView autoCompleteTextView1,autoCompleteTextView2;
     private static final String[] COUNTRIES=new String[]{"Maharashtra","Delhi","Assam","Chandigarh"};
 
@@ -67,6 +70,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         havelogin=(TextView)findViewById(R.id.Logindirected);
         createAccount=(Button)findViewById(R.id.createAccount2);
         mProgressDialog=new ProgressDialog(this);
+        loadCitesforregistration();
      //   loadstates();
 
        /* autoCompleteTextView1 =(AutoCompleteTextView)findViewById(R.id.autocomplete1);
@@ -96,6 +100,37 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
 
 
+
+    }
+
+    private void loadCitesforregistration() {
+        autoCompleteTextView1=findViewById(R.id.autoComplete1);
+
+
+        FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //Log.d("cictiesmayuripawar","aenfhbQKUH HGOU AUVNYIOUNIEBIOUOEIVUY7W3O5YIJ3VU988YN9VUW7");
+               List<String> cities= (List<String>) dataSnapshot.getValue();
+                if(cities!=null){
+                    ArrayAdapter<String> adapter=new ArrayAdapter<>(CreateAccountActivity.this,android.R.layout.simple_dropdown_item_1line,cities);
+                    autoCompleteTextView1.setAdapter(adapter);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+      /*  autoCompleteTextView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                USER_CITY = (String) parent.getItemAtPosition(position);
+            }
+        });*/
 
     }
 
