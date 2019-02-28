@@ -46,7 +46,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/buttonsofloginscreen"
+        android:background="@drawable/rectangle"
         android:ems="10"
         android:hint="  Enter the mail id"
         android:inputType="textPersonName"
@@ -64,10 +64,13 @@
         android:layout_width="287dp"
         android:layout_height="46dp"
         android:ems="10"
+        android:fontFamily="sans-serif"
+
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:inputType="textPassword"
         android:hint="  Password"
         android:textColor="@android:color/background_dark"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
@@ -76,7 +79,7 @@
         app:layout_constraintStart_toStartOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/loginEmail"
         app:layout_constraintVertical_bias="0.165"
-        android:background="@drawable/buttonsofloginscreen"
+        android:background="@drawable/rectangle"
         />
 
     <Button
@@ -131,23 +134,7 @@
         app:layout_constraintVertical_bias="0.837"
         android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="No of attempts left for incorrect login:5"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.189"
-        android:textColor="@android:color/background_dark"
-        android:textSize="17sp"
-        android:textStyle="bold"/>
+
 
 
 </android.support.constraint.ConstraintLayout>

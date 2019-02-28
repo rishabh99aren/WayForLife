@@ -114,15 +114,15 @@ public class UserActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (mUploadTask != null && mUploadTask.isInProgress()) {
-
+                   // Toast.makeText(UserActivity.this, "Uploading in progress", Toast.LENGTH_SHORT).show();
 
                 } else {
                     currentDateTimeString = SimpleDateFormat.getDateTimeInstance().format(new Date());
                     Toast.makeText(UserActivity.this, "Upload is in progress", Toast.LENGTH_SHORT).show();
+                    //uploadFile();
                 }
 
                 uploadFile();
-
 
                 //Tacking current Location of user
                  if (ActivityCompat.checkSelfPermission(UserActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -153,9 +153,6 @@ public class UserActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
 
        /* mTextViewShowUpload.setOnClickListener(new View.OnClickListener()
@@ -243,13 +240,15 @@ public class UserActivity extends AppCompatActivity {
                     mDatabaseRef.child(cityname).child(uploadId).child("Title ").setValue(title);
                    // mDatabaseRef.child(cityname).child(uploadId).child("Longitude").setValue(longitude);
                   //  mDatabaseRef.child(cityname).child(uploadId).child("Lattitude").setValue(latitude);
-                    mDatabaseRef.child(cityname).child(uploadId).child("Lattitude").setValue(Double.toString(19.2406152));
-                    mDatabaseRef.child(cityname).child(uploadId).child("Longitude").setValue(Double.toString(73.0951298));
+                    mDatabaseRef.child(cityname).child(uploadId).child("Lattitude").setValue(Double.toString(longitude));
+                    mDatabaseRef.child(cityname).child(uploadId).child("Longitude").setValue(Double.toString(latitude));
                     mDatabaseRef.child(cityname).child(uploadId).child("Timestamp").setValue(timestamp);
                     mDatabaseRef.child(cityname).child(uploadId).child("ImageUrl").setValue(taskSnapshot.getStorage().getDownloadUrl().toString());
                     mDatabaseRef.child(cityname).child(uploadId).child("UserId").setValue(userId);
                     mDatabaseRef.child(cityname).child(uploadId).child("UserName").setValue(userName);
                     mDatabaseRef.child(cityname).child(uploadId).child("City").setValue(cityname);
+
+                    startActivity(new Intent(UserActivity.this,MainActivity.class));
 
 
 
@@ -271,7 +270,7 @@ public class UserActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(this,"No File Selected",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Enter all the data",Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +42,9 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     private FirebaseDatabase mDatabase;
     private static  String USER_CITY="Mumbai";
     private static  String USER_STATE="Maharashtra";
-    AutoCompleteTextView cityAutocompleteTextView;
+    private static  String[] COUNTRIES=new String[]{"Maharashtra","Assam","Chandigarh"};
+
+    AutoCompleteTextView cityAutocompleteTextView,stateAutoCompleteTextView;
     private FirebaseAuth mAuth;
 
     @Override
@@ -64,15 +67,48 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
         complaintRecyclerAdapter=new ComplaintRecyclerAdapter(ComplaintsActivity.this,uploadList);
         recyclerView.setAdapter(complaintRecyclerAdapter);
 
-        loadcomplaints();
+        loadstates();
         loadCities();
+        loadcomplaints();
 
 
         complaintRecyclerAdapter.setOnItemClickListener(ComplaintsActivity.this);
 
+
     }
 
-     private void loadcomplaints() {
+    private void loadstates() {
+        stateAutoCompleteTextView=findViewById(R.id.autoCompleteTextView);;
+        FirebaseDatabase.getInstance().getReference().child("states").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> states=(List<String>)dataSnapshot.getValue();
+                if(states!=null){
+                    ArrayAdapter<String> adapter=new ArrayAdapter<>(ComplaintsActivity.this,android.R.layout.simple_list_item_activated_1,states);
+                    stateAutoCompleteTextView.setAdapter(adapter);
+
+                    //  loadCitesforregistration();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });stateAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                USER_STATE = (String) parent.getItemAtPosition(position);
+                loadCities();
+            }
+        });
+
+    }
+
+
+
+    private void loadcomplaints() {
         final Snackbar loadingcomplaintSnackbar=Snackbar.make(recyclerView,"loading complaints",Snackbar.LENGTH_SHORT);
         loadingcomplaintSnackbar.show();
         FirebaseDatabase.getInstance().getReference().child("Complaints").child(USER_CITY).
@@ -104,6 +140,9 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     private void loadCities() {
         cityAutocompleteTextView=findViewById(R.id.autocomplete);
         //cityAutocompleteTextView.setText(USER_CITY);
+
+       /* Loginclass login=new Loginclass();
+        String state=login.getState();*/
 
         FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
                 .addListenerForSingleValueEvent(new ValueEventListener() {

@@ -36,7 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     private List<LoginActivity> loginActivityList;
     private EditText emailField,passwordField,emailreset,inputnewpassword;
     private ProgressDialog mProgressDialog;
-    private int counter=5;
     private TextView forgotpassword;
 
 
@@ -54,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
         forgotpassword=(TextView)findViewById(R.id.forgotpassword);
         loginActivityList=new ArrayList<>();
         mProgressDialog=new ProgressDialog(this);
-        info=(TextView)findViewById(R.id.info);
 
         forgotpassword.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,12 +150,11 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     mProgressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
-                    counter--;
-                    info.setText("No of attempts remaining: " + counter);
+/*                    info.setText("No of attempts remaining: " + counter);
 
                     if(counter==0){
                         loginButton.setEnabled(false);
-                    }
+                    }*/
 
                 }
             }

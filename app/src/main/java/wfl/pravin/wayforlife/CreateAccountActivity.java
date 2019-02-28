@@ -67,8 +67,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         emailact=(EditText)findViewById(R.id.emailAct);
         passwordact=(EditText)findViewById(R.id.passwordAct);
         confirmpwd=(EditText)findViewById(R.id.passwordConfirmAct);
-        city=(EditText)findViewById(R.id.cityAct);
-        state=(EditText)findViewById(R.id.stateAct);
+
         havelogin=(TextView)findViewById(R.id.Logindirected);
         createAccount=(Button)findViewById(R.id.createAccount2);
         mProgressDialog=new ProgressDialog(this);

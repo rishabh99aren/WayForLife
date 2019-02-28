@@ -5,11 +5,16 @@ public class Loginclass {
     public String Username;
     public String Userrid;
     public String City;
+    public String State;
+    public String Email;
 
-    public Loginclass(String username, String userrid, String city) {
+    public Loginclass(String username, String userrid, String city,String state,String email ) {
+
         Username = username;
         Userrid = userrid;
         City = city;
+        State=state;
+        Email=email;
     }
 
     public Loginclass() {
@@ -37,5 +42,21 @@ public class Loginclass {
 
     public void setCity(String city) {
         City = city;
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String state) {
+        State = state;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
     }
 }
