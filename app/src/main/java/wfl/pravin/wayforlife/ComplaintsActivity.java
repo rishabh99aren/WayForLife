@@ -51,7 +51,8 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaints);
-
+		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+		
         mDatabase=FirebaseDatabase.getInstance();
         mAuth=FirebaseAuth.getInstance();
         mDatabaseReference=mDatabase.getReference().child("Complaints");

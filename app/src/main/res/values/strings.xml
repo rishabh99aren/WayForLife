@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WayForLife</string>
     <string name="title_activity_user">Report Problem</string>
+    <string name="title_activity_poll">Polls</string>
 
     <string-array name="Country_names">
         <item>Mumbai</item>

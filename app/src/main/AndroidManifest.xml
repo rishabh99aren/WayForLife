@@ -27,10 +27,21 @@
         <activity android:name=".EventAct" />
         <activity
             android:name=".ComplaintsActivity"
-            android:label="Complaints" />
+            android:label="Complaints"
+            android:parentActivityName=".NewFeedActivity"  />
         <activity
             android:name=".NewFeedActivity"
-            android:label="News Feed" />
+            android:label="Discussions"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".DiscussionDetails"
+            android:label="Comments"
+            android:parentActivityName=".NewFeedActivity" />
+        <!--For testing, this app is launcher activity-->
+        <activity
+            android:name=".PollActivity"
+            android:label="@string/title_activity_poll"
+            android:parentActivityName=".NewFeedActivity" />
         <activity android:name=".AddcomplaintActivity" />
         <activity android:name=".AboutUs" />
         <activity android:name=".DetailcomplaintActivity" />

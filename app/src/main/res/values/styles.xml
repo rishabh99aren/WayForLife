@@ -13,5 +13,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+	<style name="PollOptionsStyle">
+        <item name="android:background">@drawable/background_option_poll</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:maxLength">30</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorOption</item>
+    </style>
 </resources>
