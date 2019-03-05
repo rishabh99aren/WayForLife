@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,10 +14,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,9 +34,7 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -51,19 +44,15 @@ public class UserActivity extends AppCompatActivity {
 
     String currentDateTimeString;
     public static final int PICK_IMAGE_REQUIES = 1;
-    private Button mButtonChoseImage;
-    private Button mButtonUploadImage;
 
 
     private EditText mEditTextFileName;
     private EditText mComplaintTitle;
     private EditText mCityName;
 
-    private TextView mTextViewShowUpload;
     private ImageView mImageView;
     private ProgressBar mProgressBass;
     private Uri mImageUri;
-    protected LocationListener locationListener;
     protected Context context;
 
 
@@ -84,11 +73,11 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
 
 
-       // client = LocationServices.getFusedLocationProviderClient(this);
+        client = LocationServices.getFusedLocationProviderClient(this);
 
-        mButtonChoseImage = findViewById(R.id.button_chose_image);
-        mButtonUploadImage = findViewById(R.id.button_upload_image);
-        mTextViewShowUpload = findViewById(R.id.text_view_show_upload);
+        Button mButtonChoseImage = findViewById(R.id.button_chose_image);
+        Button mButtonUploadImage = findViewById(R.id.button_upload_image);
+        TextView mTextViewShowUpload = findViewById(R.id.text_view_show_upload);
 
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
 
@@ -154,17 +143,7 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-
-       /* mTextViewShowUpload.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                openImagesActivity();
-            }
-        });*/
-
-    }/*end of oncreate*/
+    }
 
     private void openFileChooser() {
         Intent intent = new Intent();
