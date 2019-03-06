@@ -177,7 +177,7 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
         Upload clickeditem=uploadList.get(position);
 
         detailIntent.putExtra(EXTRA_URL,clickeditem.getImageUrl());
-        detailIntent.putExtra(EXTRA_COMPLAINT,clickeditem.getUserReport());
+        detailIntent.putExtra(EXTRA_COMPLAINT, clickeditem.getDesc());
         detailIntent.putExtra(EXTRA_CITY,clickeditem.getCity());
 
         startActivity(detailIntent);

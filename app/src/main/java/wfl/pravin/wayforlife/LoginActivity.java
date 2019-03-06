@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,9 +24,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
+    private AlertDialog.Builder dialogBuilder;
+    private AlertDialog dialog;
     private FirebaseAuth mAuth;
-    private EditText emailField, passwordField, inputnewpassword;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser mUser;
+    private Button loginButton, resetpassword;
+    private TextView createaccount, info;
+    private List<LoginActivity> loginActivityList;
+    private EditText emailField, passwordField, emailreset, inputnewpassword;
     private ProgressDialog mProgressDialog;
+    private TextView forgotpassword;
+
 
 
     @Override
@@ -34,12 +44,12 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth=FirebaseAuth.getInstance();
-        Button loginButton = (Button) findViewById(R.id.loginbutton);
-        TextView createaccount = (TextView) findViewById(R.id.logincreateAccount);
+        loginButton = (Button) findViewById(R.id.loginbutton);
+        createaccount = (TextView) findViewById(R.id.logincreateAccount);
         emailField=(EditText)findViewById(R.id.loginEmail);
         passwordField=(EditText)findViewById(R.id.loginPassword);
-        TextView forgotpassword = (TextView) findViewById(R.id.forgotpassword);
-        List<LoginActivity> loginActivityList = new ArrayList<>();
+        forgotpassword = (TextView) findViewById(R.id.forgotpassword);
+        loginActivityList = new ArrayList<>();
         mProgressDialog=new ProgressDialog(this);
 
         forgotpassword.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +67,19 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-
+        /*mAuthListener=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                mUser=firebaseAuth.getCurrentUser();
+                if(mUser!=null){
+                    Toast.makeText(LoginActivity.this,"Signed in",Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                    finish();
+                }else {
+                    Toast.makeText(LoginActivity.this,"Not Signed In",Toast.LENGTH_LONG).show();
+                }
+            }
+        };*/
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,11 +100,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void resetpassword() {
-       android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(LoginActivity.this);
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(LoginActivity.this);
         inputnewpassword=new EditText(this);
         inputnewpassword.setHint("Enter your reistered MailID");
         builder.setView(inputnewpassword);
-
+       /* newpassword=new Button(this);
+        newpassword.setText("Reset Password");*/
         builder.setNeutralButton("ResetPassword", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -122,6 +145,11 @@ public class LoginActivity extends AppCompatActivity {
                 }else{
                     mProgressDialog.dismiss();
                     Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_SHORT).show();
+/*                    info.setText("No of attempts remaining: " + counter);
+                    if(counter==0){
+                        loginButton.setEnabled(false);
+                    }*/
+
                 }
             }
         });
@@ -129,12 +157,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void emailVerificationdone() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        boolean emailVerified = false;
-        if (firebaseUser != null) {
-            emailVerified = firebaseUser.isEmailVerified();
-        }
-        if (emailVerified) {
+        FirebaseUser firebaseUser = mAuth.getInstance().getCurrentUser();
+        Boolean emailverified = firebaseUser.isEmailVerified();
+        if (emailverified) {
             finish();
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
 
@@ -149,6 +174,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
+        // mAuth.addAuthStateListener(mAuthListener);
     }
 
     private void updateUI(FirebaseUser currentUser) {
@@ -158,6 +184,4 @@ public class LoginActivity extends AppCompatActivity {
             this.finish();
         }
     }
-
-
 }

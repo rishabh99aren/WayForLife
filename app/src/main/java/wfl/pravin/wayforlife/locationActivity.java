@@ -1,23 +1,15 @@
 package wfl.pravin.wayforlife;
 
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import static java.lang.Double.valueOf;
 
 public class locationActivity extends FragmentActivity implements OnMapReadyCallback,LocationListener,GoogleMap.OnMarkerClickListener {
 
@@ -50,18 +42,18 @@ public class locationActivity extends FragmentActivity implements OnMapReadyCall
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        googleMap.setOnMarkerClickListener(this);
-
-        Intent intent=getIntent();
-        String Lat=intent.getStringExtra("latitude");
-        String log=intent.getStringExtra("longitude");
-
-        LatLng location=new LatLng(valueOf(String.valueOf(Lat)), valueOf(String.valueOf(log)));
-        mMap.addMarker(new MarkerOptions().position(location)).setIcon(BitmapDescriptorFactory.
-                defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
+//        mMap = googleMap;
+//        googleMap.setOnMarkerClickListener(this);
+//
+//        Intent intent=getIntent();
+//        String Lat=intent.getStringExtra("latitude");
+//        String log=intent.getStringExtra("longitude");
+//
+//        LatLng location=new LatLng(valueOf(String.valueOf(Lat)), valueOf(String.valueOf(log)));
+//        mMap.addMarker(new MarkerOptions().position(location)).setIcon(BitmapDescriptorFactory.
+//                defaultMarker(BitmapDescriptorFactory.HUE_RED));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(DEFAULT_ZOOM));
 
 
     }

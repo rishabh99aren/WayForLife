@@ -3,10 +3,10 @@ package wfl.pravin.wayforlife;
 public class Upload
 {
     private String Title;
-    private String UserReport;
+    private String desc;
     private String City;
-    private String Lattitude;
-    private String Longitude;
+    private double lat;
+    private double lng;
     private String UserId;
     private String UserName;
     private String Timestamp;
@@ -16,20 +16,21 @@ public class Upload
     {
 
     }
-    public Upload(String Discription,String title,String cityName,String imageUrI,
-                  String lattitude,String  longitude,String userId,String userName,String timestamp)
+
+    public Upload(String Discription, String title, String cityName, String imageUrl,
+                  double lat, double lng, String userId, String userName, String timestamp)
     {
         if(Discription.trim().equals(""))
         {
             Discription = "No Name";
         }
 
-        this.UserReport = Discription;
-        this.ImageUrl = imageUrI;
+        this.desc = Discription;
+        this.ImageUrl = imageUrl;
         this.Title = title;
         this.City = cityName;
-        this.Lattitude=lattitude;
-        this.Longitude = longitude;
+        this.lat = lat;
+        this.lng = lng;
         this.UserId = userId;
         this.UserName=userName;
         this.Timestamp =timestamp;
@@ -37,11 +38,12 @@ public class Upload
 
     public String getName()
     {
-        return UserReport;
+        return desc;
     }
-    public void setUserReport(String Discription)
+
+    public void setDesc(String Discription)
     {
-         UserReport = Discription;
+        desc = Discription;
     }
 
     public String getTitle() {
@@ -52,8 +54,8 @@ public class Upload
         Title = title;
     }
 
-    public String getUserReport() {
-        return UserReport;
+    public String getDesc() {
+        return desc;
     }
 
     public String getCity() {
@@ -64,20 +66,20 @@ public class Upload
         City = city;
     }
 
-    public String getLattitude() {
-        return Lattitude;
+    public double getLat() {
+        return lat;
     }
 
-    public void setLattitude(String lattitude) {
-        Lattitude = lattitude;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public String getLongitude() {
-        return Longitude;
+    public double getLng() {
+        return lng;
     }
 
-    public void setLongitude(String longitude) {
-        Longitude = longitude;
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getUserId() {

@@ -1,35 +1,35 @@
 {
   "project_info": {
-    "project_number": "402824222400",
-    "firebase_url": "https://way-for-life.firebaseio.com",
-    "project_id": "way-for-life",
-    "storage_bucket": "way-for-life.appspot.com"
+    "project_number": "103588093618",
+    "firebase_url": "https://wayforlifecomplaint.firebaseio.com",
+    "project_id": "wayforlifecomplaint",
+    "storage_bucket": "wayforlifecomplaint.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:402824222400:android:347b75d030ca990e",
+        "mobilesdk_app_id": "1:103588093618:android:347b75d030ca990e",
         "android_client_info": {
           "package_name": "wfl.pravin.wayforlife"
         }
       },
       "oauth_client": [
         {
-          "client_id": "402824222400-robhikpd4hbtrvvr8sd71470kk8hi9fr.apps.googleusercontent.com",
+          "client_id": "103588093618-1hmacmp45ue5skgfg377k3v0r8mijc50.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "wfl.pravin.wayforlife",
-            "certificate_hash": "5d12da92f9c3711e463295cd9db2b450c9599f19"
+            "certificate_hash": "cd1d5df206af2bda08ff021d7740fde7087d2fb7"
           }
         },
         {
-          "client_id": "402824222400-gg4h10u08st3j71acgnglldecm4eu4o0.apps.googleusercontent.com",
+          "client_id": "103588093618-5363e1ecr8p2hp0j5g3aptbc0mb4fkc7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAud-t3BSQ2PDalLeooDRxDo233ZsOVNls"
+          "current_key": "AIzaSyBIOhxqvyCpxqgdTocFgBb1XgZGGqiD6DQ"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "402824222400-gg4h10u08st3j71acgnglldecm4eu4o0.apps.googleusercontent.com",
+              "client_id": "103588093618-5363e1ecr8p2hp0j5g3aptbc0mb4fkc7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
