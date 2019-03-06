@@ -52,6 +52,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".SplashActivity" />
+        <activity android:name=".RegistereventsActivity" />
+        <activity android:name=".RetriveeventsActivity" />
+        <activity android:name=".Detaileventsactivity"></activity>
     </application>
 
 </manifest>
