@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,16 +20,15 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,6 +44,8 @@ public class UserActivity extends AppCompatActivity {
     private static final String TAG = "Nitin";
 
     double lat, lng;
+    FusedLocationProviderClient mFusedLocationClient;
+
     //TODO: replace after auth module is complete
     private static final String USER_NAME = "Nitin";
     private static final String USER_ID = "aca_2424_vfaffa_2222";
@@ -55,6 +57,7 @@ public class UserActivity extends AppCompatActivity {
 
     private EditText mEditTextFileName;
     private EditText mComplaintTitle;
+    private RelativeLayout parentLayout;
 
     private ImageView mImageView;
     private Uri mImageUri;
@@ -70,8 +73,11 @@ public class UserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
         Button mButtonChoseImage = findViewById(R.id.button_chose_image);
         Button mButtonUploadImage = findViewById(R.id.button_upload_image);
+        parentLayout = findViewById(R.id.parent_layout);
 
         mEditTextFileName = findViewById(R.id.edit_text_file_name);
 
@@ -120,11 +126,11 @@ public class UserActivity extends AppCompatActivity {
 
     private void getLocationPermission() {
 
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
             getDeviceLocation();
         } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQ_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQ_CODE);
         }
     }
 
@@ -143,23 +149,16 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void getDeviceLocation() {
-        FusedLocationProviderClient mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
             if (mLocationPermissionGranted) {
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(new OnCompleteListener() {
+                mFusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            Log.d("Nitin", "found current location");
-                            Location currLocation = (Location) task.getResult();
-
-                            if (currLocation != null) {
-                                lat = currLocation.getLatitude();
-                                lng = currLocation.getLongitude();
-                                Log.d(TAG, "got location:" + lat + ", " + lng);
-                                uploadFile();
-                            }
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            lat = location.getLatitude();
+                            lng = location.getLongitude();
+                            Log.d(TAG, "got location:" + lat + ", " + lng);
+                            uploadFile();
                         } else {
                             Toast.makeText(UserActivity.this, "location not found", Toast.LENGTH_SHORT).show();
                         }
@@ -201,11 +200,18 @@ public class UserActivity extends AppCompatActivity {
 
     private void uploadFile() {
         if (mImageUri != null) {
+            final Snackbar uploadingImageSnackbar = Snackbar.make(parentLayout, "uploading image", Snackbar.LENGTH_INDEFINITE);
+            uploadingImageSnackbar.show();
+
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtention(mImageUri));
             fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Log.d(TAG, "Image uploaded");
+                    uploadingImageSnackbar.dismiss();
+
+                    final Snackbar uploadingComplaintSnackbar = Snackbar.make(parentLayout, "adding complaint", Snackbar.LENGTH_INDEFINITE);
+                    uploadingComplaintSnackbar.show();
 
                     String desc = mEditTextFileName.getText().toString().trim();
                     String title = mComplaintTitle.getText().toString().trim();
@@ -220,15 +226,21 @@ public class UserActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Log.d(TAG, "complaint added to db");
+                                uploadingComplaintSnackbar.dismiss();
+                                showSnackbar("Complaint added");
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.d(TAG, "failed to add complaint in db");
+                                uploadingComplaintSnackbar.dismiss();
+                                showSnackbar("Try again later");
                             }
                         });
+                    } else {
+                        uploadingComplaintSnackbar.dismiss();
+                        showSnackbar("Try again later");
                     }
-                    startActivity(new Intent(UserActivity.this, MainActivity.class));
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -237,7 +249,11 @@ public class UserActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(this, "Image not selected", Toast.LENGTH_SHORT).show();
+            showSnackbar("Image not selected");
         }
+    }
+
+    private void showSnackbar(String msg) {
+        Snackbar.make(parentLayout, msg, Snackbar.LENGTH_SHORT).show();
     }
 }

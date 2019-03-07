@@ -15,7 +15,7 @@
       },
       "oauth_client": [
         {
-          "client_id": "402824222400-robhikpd4hbtrvvr8sd71470kk8hi9fr.apps.googleusercontent.com",
+          "client_id": "402824222400-gspnm34hl9l1nhgiqedmb70ud7ojjgpo.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "wfl.pravin.wayforlife",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "402824222400-gg4h10u08st3j71acgnglldecm4eu4o0.apps.googleusercontent.com",
+          "client_id": "402824222400-tpptd3se5erbdrs0oomn4spidl4hpb03.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAud-t3BSQ2PDalLeooDRxDo233ZsOVNls"
+          "current_key": "AIzaSyD_bOiGupWkWq3YP0Re-oun5qZKizgeYOs"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "402824222400-gg4h10u08st3j71acgnglldecm4eu4o0.apps.googleusercontent.com",
+              "client_id": "402824222400-tpptd3se5erbdrs0oomn4spidl4hpb03.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
