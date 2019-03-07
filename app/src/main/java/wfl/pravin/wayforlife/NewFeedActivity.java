@@ -15,20 +15,8 @@ public class NewFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feed);
 
-        Button postevent=(Button)findViewById(R.id.button2);
-
-        postevent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(NewFeedActivity.this,RegistereventsActivity.class));
-                finish();
-            }
-        });
 
     }
 
-    public void openComplaintsActivity(View view) {
-        Intent i = new Intent(NewFeedActivity.this, ComplaintsActivity.class);
-        startActivity(i);
-    }
+
 }

@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.app.Activity.RESULT_OK;
 
 public class EventAct extends AppCompatActivity {
 

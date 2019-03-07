@@ -37,6 +37,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
         Events events=eventsList.get(position);
         holder.title.setText(events.getTitle());
         holder.date.setText(events.getDate());
+        holder.city.setText(events.getCity());
 
     }
 

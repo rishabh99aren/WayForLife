@@ -57,25 +57,23 @@ public class RetriveeventsActivity extends AppCompatActivity {
 
     }
 
- /*   @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menuforevents,menu);
         return super.onCreateOptionsMenu(menu);
-    }*/
+    }
 
-  /*  @Override
+   @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.addEvents:
-                Intent intent = new Intent(this,RegistereventsActivity.class);
-                this.startActivity(intent);
-                return true;
-                /*startActivity(new Intent(RetriveeventsActivity.this,RegistereventsActivity.class));
+            case R.id.addevents:
+
+                startActivity(new Intent(RetriveeventsActivity.this,RegistereventsActivity.class));
                 finish();
-                break;*/
-     //   }
-   //     return super.onOptionsItemSelected(item);
- //   }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onStart() {
