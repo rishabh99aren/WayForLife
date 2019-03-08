@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@drawable/background1"
     android:layout_height="match_parent"
-    tools:context=".UserActivity">
+    tools:context=".AddComplaintActivity">
 
     <TextView
         android:id="@+id/event"
@@ -23,7 +22,7 @@
         android:id="@+id/title2"
         android:layout_width="108dp"
         android:layout_height="32dp"
-        android:layout_alignBottom="@+id/ComplaintTitle"
+        android:layout_alignBottom="@+id/Complaint_title"
         android:layout_alignParentStart="true"
         android:gravity="center"
         android:text="EventTitle" />
@@ -44,7 +43,7 @@
         android:layout_marginBottom="100dp" />
 
     <EditText
-        android:id="@+id/ComplaintTitle"
+        android:id="@+id/Complaint_title"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/location"
@@ -68,7 +67,7 @@
         android:layout_width="243dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/ComplaintTitle"
+        android:layout_alignStart="@+id/Complaint_title"
         android:layout_marginTop="110dp"
         android:background="#ffffff"
         android:gravity="start"
@@ -76,7 +75,7 @@
         android:minHeight="100dp" />
 
     <Button
-        android:id="@+id/button_upload_image"
+        android:id="@+id/button_add_complaint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -94,7 +93,7 @@
         android:layout_marginBottom="57dp"
         android:layout_marginEnd="102dp"
         android:gravity="center"
-        android:hint="Show upload"
+        android:hint="Show complaint"
         android:textSize="16sp"
         />
     <TextView

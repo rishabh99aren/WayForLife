@@ -1,10 +1,9 @@
-package wfl.pravin.wayforlife;
+package wfl.pravin.wayforlife.models;
 
-public class Upload
+public class Complaint
 {
     private String Title;
     private String desc;
-    private String City;
     private double lat;
     private double lng;
     private String UserId;
@@ -12,13 +11,13 @@ public class Upload
     private String Timestamp;
     private String ImageUrl;
 
-    public Upload()
+    public Complaint()
     {
 
     }
 
-    public Upload(String Discription, String title, String cityName, String imageUrl,
-                  double lat, double lng, String userId, String userName, String timestamp)
+    public Complaint(String Discription, String title, String imageUrl,
+                     double lat, double lng, String userId, String userName, String timestamp)
     {
         if(Discription.trim().equals(""))
         {
@@ -28,17 +27,11 @@ public class Upload
         this.desc = Discription;
         this.ImageUrl = imageUrl;
         this.Title = title;
-        this.City = cityName;
         this.lat = lat;
         this.lng = lng;
         this.UserId = userId;
         this.UserName=userName;
         this.Timestamp =timestamp;
-    }
-
-    public String getName()
-    {
-        return desc;
     }
 
     public void setDesc(String Discription)
@@ -56,14 +49,6 @@ public class Upload
 
     public String getDesc() {
         return desc;
-    }
-
-    public String getCity() {
-        return City;
-    }
-
-    public void setCity(String city) {
-        City = city;
     }
 
     public double getLat() {

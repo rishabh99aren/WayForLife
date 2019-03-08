@@ -2,11 +2,10 @@ package wfl.pravin.wayforlife;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,7 +27,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -56,11 +53,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        Log.d("cities", "be calm  strig"/*String.valueOf(cities)*/);
-
-
         mDatabase=FirebaseDatabase.getInstance();
-        mDatabasereference=mDatabase.getReference().child("Musers");
+        mDatabasereference = mDatabase.getReference().child("users");
         mAuth=FirebaseAuth.getInstance();
 
         username=(EditText)findViewById(R.id.firstName);
@@ -73,17 +67,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         mProgressDialog=new ProgressDialog(this);
         loadstatesforregistration();
         loadCitesforregistration();
-     //   loadstates();
-
-       /* autoCompleteTextView1 =(AutoCompleteTextView)findViewById(R.id.autocomplete1);
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,COUNTRIES);
-        autoCompleteTextView1.setAdapter(adapter);
-        autoCompleteTextView1.setThreshold(1);
-        autoCompleteTextView1.setAdapter(adapter);*/
-
-        //loadcities();
-       // Log.d("cities", "be AegjJEandkj stupid"/*String.valueOf(cities)*/);
-
 
         havelogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -171,8 +154,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         String email=emailact.getText().toString().trim();
         String password=passwordact.getText().toString().trim();
         String confirmpassword=confirmpwd.getText().toString().trim();
-     /*   final String ccity=city.getText().toString().trim();
-        final String cstate=state.getText().toString().trim();*/
 
         if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             emailact.setError("Please enter a valid email");
@@ -238,8 +219,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                             currentuserdb.child("City").setValue(USER_CITY);
                             currentuserdb.child("State").setValue(USER_STATE);
                             currentuserdb.child("Email").setValue(emailact.getText().toString().trim());
-                            /*currentuserdb.child("City").setValue(city.getText().toString().trim());
-                            currentuserdb.child("State").setValue(state.getText().toString().trim());*/
                             mProgressDialog.dismiss();
                         mAuth.signOut();
                         startActivity(new Intent(CreateAccountActivity.this,LoginActivity.class));

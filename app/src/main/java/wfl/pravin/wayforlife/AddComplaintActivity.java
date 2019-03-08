@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -20,15 +21,17 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,8 +39,12 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.Objects;
 
-public class UserActivity extends AppCompatActivity {
+import wfl.pravin.wayforlife.models.Complaint;
+
+
+public class AddComplaintActivity extends AppCompatActivity {
 
     private static final int LOCATION_PERMISSION_REQ_CODE = 234;
     public static final int PICK_IMAGE_REQUEST_CODE = 123;
@@ -45,6 +52,7 @@ public class UserActivity extends AppCompatActivity {
 
     double lat, lng;
     FusedLocationProviderClient mFusedLocationClient;
+    private boolean mLocationPermissionGranted = false;
 
     //TODO: replace after auth module is complete
     private static final String USER_NAME = "Nitin";
@@ -55,40 +63,32 @@ public class UserActivity extends AppCompatActivity {
     String currentDateTimeString;
 
 
-    private EditText mEditTextFileName;
+    private EditText mComplaintDesc;
     private EditText mComplaintTitle;
-    private RelativeLayout parentLayout;
-
+    private ConstraintLayout parentLayout;
     private ImageView mImageView;
     private Uri mImageUri;
 
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
 
-    private boolean mLocationPermissionGranted = false;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_add_complaint);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
-        Button mButtonChoseImage = findViewById(R.id.button_chose_image);
-        Button mButtonUploadImage = findViewById(R.id.button_upload_image);
+        Button mButtonChoseImage = findViewById(R.id.button_choose_image);
+        Button mButtonAddComplaint = findViewById(R.id.button_add_complaint);
         parentLayout = findViewById(R.id.parent_layout);
-
-        mEditTextFileName = findViewById(R.id.edit_text_file_name);
-
+        mComplaintDesc = findViewById(R.id.complaint_desc);
         mImageView = findViewById(R.id.image_view);
-
-        mComplaintTitle = findViewById(R.id.ComplaintTitle);
-
+        mComplaintTitle = findViewById(R.id.Complaint_title);
 
         mStorageRef = FirebaseStorage.getInstance().getReference(COMPLAINT);
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(COMPLAINT);
-
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(COMPLAINT).child(USER_CITY);
 
         mButtonChoseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
-        mButtonUploadImage.setOnClickListener(new View.OnClickListener() {
+        mButtonAddComplaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isServicesOK()) {
@@ -160,7 +160,7 @@ public class UserActivity extends AppCompatActivity {
                             Log.d(TAG, "got location:" + lat + ", " + lng);
                             uploadFile();
                         } else {
-                            Toast.makeText(UserActivity.this, "location not found", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddComplaintActivity.this, "location not found", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -203,49 +203,56 @@ public class UserActivity extends AppCompatActivity {
             final Snackbar uploadingImageSnackbar = Snackbar.make(parentLayout, "uploading image", Snackbar.LENGTH_INDEFINITE);
             uploadingImageSnackbar.show();
 
-            StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtention(mImageUri));
-            fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtention(mImageUri));
+            fileReference.putFile(mImageUri).continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d(TAG, "Image uploaded");
-                    uploadingImageSnackbar.dismiss();
-
-                    final Snackbar uploadingComplaintSnackbar = Snackbar.make(parentLayout, "adding complaint", Snackbar.LENGTH_INDEFINITE);
-                    uploadingComplaintSnackbar.show();
-
-                    String desc = mEditTextFileName.getText().toString().trim();
-                    String title = mComplaintTitle.getText().toString().trim();
-                    String timestamp = currentDateTimeString;
-                    String imageURL = taskSnapshot.getStorage().getDownloadUrl().toString();
-
-                    Upload newComplaint = new Upload(desc, title, USER_CITY, imageURL, lat, lng, USER_ID, USER_NAME, timestamp);
-
-                    String key = mDatabaseRef.push().getKey();
-                    if (key != null) {
-                        mDatabaseRef.child(key).setValue(newComplaint).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "complaint added to db");
-                                uploadingComplaintSnackbar.dismiss();
-                                showSnackbar("Complaint added");
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "failed to add complaint in db");
-                                uploadingComplaintSnackbar.dismiss();
-                                showSnackbar("Try again later");
-                            }
-                        });
-                    } else {
-                        uploadingComplaintSnackbar.dismiss();
-                        showSnackbar("Try again later");
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()) {
+                        throw task.getException();
                     }
+                    return fileReference.getDownloadUrl();
                 }
-            }).addOnFailureListener(new OnFailureListener() {
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(UserActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "Image uploaded");
+                        uploadingImageSnackbar.dismiss();
+
+                        final Snackbar uploadingComplaintSnackbar = Snackbar.make(parentLayout, "adding complaint", Snackbar.LENGTH_INDEFINITE);
+                        uploadingComplaintSnackbar.show();
+
+                        String desc = mComplaintDesc.getText().toString().trim();
+                        String title = mComplaintTitle.getText().toString().trim();
+                        String timestamp = currentDateTimeString;
+                        String imageURL = task.getResult().toString();
+
+                        Complaint newComplaint = new Complaint(desc, title, imageURL, lat, lng, USER_ID, USER_NAME, timestamp);
+
+                        String key = mDatabaseRef.push().getKey();
+                        if (key != null) {
+                            mDatabaseRef.child(key).setValue(newComplaint).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "complaint added to db");
+                                    uploadingComplaintSnackbar.dismiss();
+                                    showSnackbar("Complaint added");
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d(TAG, "failed to add complaint in db");
+                                    uploadingComplaintSnackbar.dismiss();
+                                    showSnackbar("Try again later");
+                                }
+                            });
+                        } else {
+                            uploadingComplaintSnackbar.dismiss();
+                            showSnackbar("Try again later");
+                        }
+                    } else {
+                        Toast.makeText(AddComplaintActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         } else {

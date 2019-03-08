@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,20 +25,27 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import wfl.pravin.wayforlife.models.Complaint;
+
 
 public class ComplaintsActivity extends AppCompatActivity implements ComplaintRecyclerAdapter.OnitemClickListener {
 
-    public static final String EXTRA_COMPLAINT="comaplintname";
-    public static final String EXTRA_CITY="cityname";
-    public static final String EXTRA_URL="image";
+    public static final String EXTRA_COMPLAINT_TITLE = "comaplintTitle";
+    public static final String EXTRA_COMPLAINT_DESC = "complaintDesc";
+    public static final String EXTRA_IMAGE_URL = "imageURL";
+    public static final String EXTRA_COMPLAINT_LAT = "complaintLat";
+    public static final String EXTRA_COMPLAINT_LNG = "complaintLng";
+    public static final String EXTRA_COMPLAINT_BY_USER = "complaintByUser";
+
+
+
     private DatabaseReference mDatabaseReference;
     private RecyclerView recyclerView;
     private ComplaintRecyclerAdapter complaintRecyclerAdapter;
-    private List<Upload> uploadList;
+    private List<Complaint> complaintList;
     private FirebaseDatabase mDatabase;
-    private static  String USER_CITY="Mumbai";
-    private static  String USER_STATE="Maharashtra";
-    private static  String[] COUNTRIES=new String[]{"Maharashtra","Assam","Chandigarh"};
+    private static String USER_CITY = "Rupnagar";
+    private static String USER_STATE = "Punjab";
 
     AutoCompleteTextView cityAutocompleteTextView,stateAutoCompleteTextView;
     private FirebaseAuth mAuth;
@@ -50,17 +58,17 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 		
         mDatabase=FirebaseDatabase.getInstance();
         mAuth=FirebaseAuth.getInstance();
-        mDatabaseReference=mDatabase.getReference().child("Complaints");
+        mDatabaseReference = mDatabase.getReference().child("complaints");
         mDatabaseReference.keepSynced(true);
 
+        Log.d("Nitin", mAuth.getCurrentUser().getUid());
 
-
-        uploadList=new ArrayList<>();
+        complaintList = new ArrayList<>();
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerViewId);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        complaintRecyclerAdapter=new ComplaintRecyclerAdapter(ComplaintsActivity.this,uploadList);
+        complaintRecyclerAdapter = new ComplaintRecyclerAdapter(ComplaintsActivity.this, complaintList);
         recyclerView.setAdapter(complaintRecyclerAdapter);
 
         loadstates();
@@ -107,18 +115,15 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     private void loadcomplaints() {
         final Snackbar loadingcomplaintSnackbar=Snackbar.make(recyclerView,"loading complaints",Snackbar.LENGTH_SHORT);
         loadingcomplaintSnackbar.show();
-        FirebaseDatabase.getInstance().getReference().child("Complaints").child(USER_CITY).
+        FirebaseDatabase.getInstance().getReference().child("complaints").child(USER_CITY).
         addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               // Log.d("wjefuwhgbkahbgjshktb","qbdwgefughuiwhgiquhuyfqgtegt");
-                uploadList.clear();
+                complaintList.clear();
                 for(DataSnapshot complaintsnapshot : dataSnapshot.getChildren()){
-                    Upload upload=complaintsnapshot.getValue(Upload.class);
-                    uploadList.add(upload);
-                    Collections.reverse(uploadList);
-
-
+                    Complaint complaint = complaintsnapshot.getValue(Complaint.class);
+                    complaintList.add(complaint);
+                    Collections.reverse(complaintList);
                 }
                 complaintRecyclerAdapter.notifyDataSetChanged();
                 loadingcomplaintSnackbar.dismiss();
@@ -135,11 +140,6 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 
     private void loadCities() {
         cityAutocompleteTextView=findViewById(R.id.autocomplete);
-        //cityAutocompleteTextView.setText(USER_CITY);
-
-       /* Loginclass login=new Loginclass();
-        String state=login.getState();*/
-
         FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -169,16 +169,17 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
 
     }
 
-
-//when clicked on the view of recyclerview
     @Override
     public void onItemClick(int position) {
         Intent detailIntent=new Intent(this,DetailcomplaintActivity.class);
-        Upload clickeditem=uploadList.get(position);
+        Complaint clickeditem = complaintList.get(position);
 
-        detailIntent.putExtra(EXTRA_URL,clickeditem.getImageUrl());
-        detailIntent.putExtra(EXTRA_COMPLAINT, clickeditem.getDesc());
-        detailIntent.putExtra(EXTRA_CITY,clickeditem.getCity());
+        detailIntent.putExtra(EXTRA_IMAGE_URL, clickeditem.getImageUrl());
+        detailIntent.putExtra(EXTRA_COMPLAINT_TITLE, clickeditem.getTitle());
+        detailIntent.putExtra(EXTRA_COMPLAINT_DESC, clickeditem.getDesc());
+        detailIntent.putExtra(EXTRA_COMPLAINT_LAT, clickeditem.getLat());
+        detailIntent.putExtra(EXTRA_COMPLAINT_LNG, clickeditem.getLng());
+        detailIntent.putExtra(EXTRA_COMPLAINT_BY_USER, clickeditem.getUserName());
 
         startActivity(detailIntent);
 
