@@ -19,9 +19,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import wfl.pravin.wayforlife.models.UserData;
 
 public class LoginActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
@@ -160,8 +167,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser firebaseUser = mAuth.getInstance().getCurrentUser();
         Boolean emailverified = firebaseUser.isEmailVerified();
         if (emailverified) {
-            finish();
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            updateClientData(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         }else{
             Toast.makeText(this,"Verify your mail",Toast.LENGTH_SHORT).show();
@@ -183,5 +189,29 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(i);
             this.finish();
         }
+    }
+
+    private void updateClientData(String uid) {
+        DatabaseReference users = FirebaseDatabase.getInstance().getReference().child("users").child(uid);
+        users.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                UserData user = dataSnapshot.getValue(UserData.class);
+                if (user != null) {
+                    UserDataUtils.setClientData(user);
+                    UserDataUtils.saveDataInSharedPref(getApplicationContext());
+
+                    finish();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                } else {
+                    Toast.makeText(LoginActivity.this, "Cannot find user", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

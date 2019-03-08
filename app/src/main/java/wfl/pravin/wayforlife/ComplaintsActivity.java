@@ -7,13 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,24 +42,23 @@ public class ComplaintsActivity extends AppCompatActivity implements ComplaintRe
     private ComplaintRecyclerAdapter complaintRecyclerAdapter;
     private List<Complaint> complaintList;
     private FirebaseDatabase mDatabase;
-    private static String USER_CITY = "Rupnagar";
-    private static String USER_STATE = "Punjab";
+    private static String USER_CITY = "";
+    private static String USER_STATE = "";
 
     AutoCompleteTextView cityAutocompleteTextView,stateAutoCompleteTextView;
-    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complaints);
 		Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        UserDataUtils.refreshUserData(this);
+        USER_CITY = ClientData.getCity();
+        USER_STATE = ClientData.getState();
 		
         mDatabase=FirebaseDatabase.getInstance();
-        mAuth=FirebaseAuth.getInstance();
         mDatabaseReference = mDatabase.getReference().child("complaints");
         mDatabaseReference.keepSynced(true);
-
-        Log.d("Nitin", mAuth.getCurrentUser().getUid());
 
         complaintList = new ArrayList<>();
 

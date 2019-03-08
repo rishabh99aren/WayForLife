@@ -51,6 +51,7 @@ public class DiscussionDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_discussion_details);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        UserDataUtils.refreshUserData(this);
 
         getExtraFromIntent();
 
@@ -153,8 +154,7 @@ public class DiscussionDetails extends AppCompatActivity {
         EditText newComment = findViewById(R.id.new_comment);
         String commentText = newComment.getText().toString();
         if (commentText.trim().length() > 0) {
-            // TODO : replace name,id with auth data
-            Comment comment = new Comment(commentText, "bfbu_2746_bFBUJB", "Nitin Verma", "" + System.currentTimeMillis());
+            Comment comment = new Comment(commentText, ClientData.getUid(), ClientData.getName(), "" + System.currentTimeMillis());
             mCommentsReference.push().setValue(comment);
 
             hideSoftKeyboard();

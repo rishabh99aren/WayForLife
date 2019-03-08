@@ -34,14 +34,9 @@ import wfl.pravin.wayforlife.adapter.PollAdapter;
 import wfl.pravin.wayforlife.models.Poll;
 
 public class PollActivity extends AppCompatActivity {
-    //dummy user data
-    //TODO: replace after auth module is complete
-    private static final String USER_NAME = "Nitin";
-    private static final String USER_ID = "aca_2424_vfaffa_2222";
-    private static final String USER_STATE = "Punjab";
     private static final String POLLS = "polls";
     private static final String VOTES = "votes";
-    private static String USER_CITY = "Rupnagar";
+    private static String USER_CITY = "";
 
     List<Poll> pollList;
     RecyclerView mRecyclerView;
@@ -56,6 +51,8 @@ public class PollActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poll);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        UserDataUtils.refreshUserData(this);
+        USER_CITY = ClientData.getCity();
 
         pollList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.polls_rv);
@@ -67,7 +64,7 @@ public class PollActivity extends AppCompatActivity {
 
                 final Snackbar voteAddingSnackbar = Snackbar.make(mRecyclerView, "Please wait ...", Snackbar.LENGTH_INDEFINITE);
                 voteAddingSnackbar.show();
-                FirebaseDatabase.getInstance().getReference().child(VOTES).child(key).child(USER_ID).setValue(option)
+                FirebaseDatabase.getInstance().getReference().child(VOTES).child(key).child(ClientData.getUid()).setValue(option)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -112,7 +109,7 @@ public class PollActivity extends AppCompatActivity {
                                 pollList.add(p);
 
                                 String key = p.getKey();
-                                Object obj = dataSnapshot.child(key).child(USER_ID).getValue();
+                                Object obj = dataSnapshot.child(key).child(ClientData.getUid()).getValue();
                                 long option = -1;
                                 if (obj != null) {
                                     option = (long) obj;
@@ -215,7 +212,7 @@ public class PollActivity extends AppCompatActivity {
                     optionsList.add(option4);
 
                 String key = mPollsReference.push().getKey();
-                final Poll newPoll = new Poll(title, USER_ID, USER_NAME, key, optionsList);
+                final Poll newPoll = new Poll(title, ClientData.getUid(), ClientData.getName(), key, optionsList);
                 if (key != null) {
                     mPollsReference.child(key).setValue(newPoll).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -262,7 +259,7 @@ public class PollActivity extends AppCompatActivity {
         cityAutoCompleteTextView = findViewById(R.id.city);
         cityAutoCompleteTextView.setText(USER_CITY); //by default value
 
-        FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
+        FirebaseDatabase.getInstance().getReference().child("cities").child(ClientData.getState())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -36,12 +36,7 @@ import wfl.pravin.wayforlife.adapter.DiscussionAdapter;
 import wfl.pravin.wayforlife.models.Discussion;
 
 public class NewFeedActivity extends AppCompatActivity {
-    //dummy user data
-    //TODO: replace after auth module is complete
-    private static final String USER_NAME = "Nitin";
-    private static final String USER_ID = "aca_2424_vfaffa_2222";
-    private static final String USER_STATE = "Punjab";
-    private static String USER_CITY = "Rupnagar";
+    private static String USER_CITY = "";
     private static final String DISCUSSIONS = "discussions";
 
     List<Discussion> discussionList;
@@ -56,6 +51,8 @@ public class NewFeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_feed);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        UserDataUtils.refreshUserData(this);
+        USER_CITY = ClientData.getCity();
 
         discussionList = new ArrayList<>();
         mRecyclerView = findViewById(R.id.discussion_rv);
@@ -115,7 +112,7 @@ public class NewFeedActivity extends AppCompatActivity {
         cityAutoCompleteTextView = findViewById(R.id.city);
         cityAutoCompleteTextView.setText(USER_CITY); //by default value
 
-        FirebaseDatabase.getInstance().getReference().child("cities").child(USER_STATE)
+        FirebaseDatabase.getInstance().getReference().child("cities").child(ClientData.getState())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -172,7 +169,7 @@ public class NewFeedActivity extends AppCompatActivity {
         addingDiscussionSnackbar.show();
 
         String key = mDiscussionReference.push().getKey();
-        final Discussion newDiscussion = new Discussion(titleEditText.getText().toString(), USER_ID, USER_NAME, key);
+        final Discussion newDiscussion = new Discussion(titleEditText.getText().toString(), ClientData.getUid(), ClientData.getName(), key);
         if (key != null) {
             mDiscussionReference.child(key).setValue(newDiscussion).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override

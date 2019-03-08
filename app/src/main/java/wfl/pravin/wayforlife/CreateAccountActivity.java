@@ -214,11 +214,11 @@ public class CreateAccountActivity extends AppCompatActivity {
                         Toast.makeText(CreateAccountActivity.this, "Verification email has been sent.", Toast.LENGTH_SHORT).show();
                             String userid = mAuth.getCurrentUser().getUid();
                             DatabaseReference currentuserdb = mDatabasereference.child(userid);
-                            currentuserdb.child("Username").setValue(username.getText().toString().trim());
-                            currentuserdb.child("Userid").setValue(userid);
-                            currentuserdb.child("City").setValue(USER_CITY);
-                            currentuserdb.child("State").setValue(USER_STATE);
-                            currentuserdb.child("Email").setValue(emailact.getText().toString().trim());
+                        currentuserdb.child("name").setValue(username.getText().toString().trim());
+                        currentuserdb.child("uid").setValue(userid);
+                        currentuserdb.child("city").setValue(USER_CITY);
+                        currentuserdb.child("state").setValue(USER_STATE);
+                        currentuserdb.child("email").setValue(emailact.getText().toString().trim());
                             mProgressDialog.dismiss();
                         mAuth.signOut();
                         startActivity(new Intent(CreateAccountActivity.this,LoginActivity.class));

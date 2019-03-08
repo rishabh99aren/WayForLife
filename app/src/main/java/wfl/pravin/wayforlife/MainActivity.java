@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        UserDataUtils.refreshUserData(this);
 
         reportButton =(ImageView)findViewById(R.id.userReport);
         newsFeedButton = (ImageView)findViewById(R.id.newsFeed);
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mAuth.signOut();
+                        UserDataUtils.clearSharedPref(MainActivity.this);
                         startActivity(new Intent(MainActivity.this,LoginActivity.class));
                         finish();
 

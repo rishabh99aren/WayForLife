@@ -49,19 +49,12 @@ public class AddComplaintActivity extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQ_CODE = 234;
     public static final int PICK_IMAGE_REQUEST_CODE = 123;
     private static final String TAG = "Nitin";
+    private static final String COMPLAINT = "complaints";
 
     double lat, lng;
     FusedLocationProviderClient mFusedLocationClient;
     private boolean mLocationPermissionGranted = false;
-
-    //TODO: replace after auth module is complete
-    private static final String USER_NAME = "Nitin";
-    private static final String USER_ID = "aca_2424_vfaffa_2222";
-    private static final String COMPLAINT = "complaints";
-    private static String USER_CITY = "Rupnagar";
-
     String currentDateTimeString;
-
 
     private EditText mComplaintDesc;
     private EditText mComplaintTitle;
@@ -77,6 +70,7 @@ public class AddComplaintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_complaint);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        UserDataUtils.refreshUserData(this);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -88,7 +82,7 @@ public class AddComplaintActivity extends AppCompatActivity {
         mComplaintTitle = findViewById(R.id.Complaint_title);
 
         mStorageRef = FirebaseStorage.getInstance().getReference(COMPLAINT);
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference(COMPLAINT).child(USER_CITY);
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference(COMPLAINT).child(ClientData.getCity());
 
         mButtonChoseImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,7 +221,7 @@ public class AddComplaintActivity extends AppCompatActivity {
                         String timestamp = currentDateTimeString;
                         String imageURL = task.getResult().toString();
 
-                        Complaint newComplaint = new Complaint(desc, title, imageURL, lat, lng, USER_ID, USER_NAME, timestamp);
+                        Complaint newComplaint = new Complaint(desc, title, imageURL, lat, lng, ClientData.getUid(), ClientData.getName(), timestamp);
 
                         String key = mDatabaseRef.push().getKey();
                         if (key != null) {
