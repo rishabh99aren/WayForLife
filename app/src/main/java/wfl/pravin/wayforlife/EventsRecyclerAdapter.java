@@ -1,6 +1,5 @@
 package wfl.pravin.wayforlife;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -9,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.google.android.gms.vision.text.Text;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.retriveeventslistrow,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_events, parent, false);
         return new ViewHolder(view,context);
     }
 
@@ -71,12 +68,8 @@ public class EventsRecyclerAdapter extends RecyclerView.Adapter<EventsRecyclerAd
                     i.putExtra("State",events.getState());
                     i.putExtra("City",events.getCity());
                     context.startActivity(i);
-
                 }
             });
-
         }
-
-
     }
 }

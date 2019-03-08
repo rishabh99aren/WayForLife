@@ -2,9 +2,9 @@ package wfl.pravin.wayforlife;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RegistereventsActivity extends AppCompatActivity {
     private EditText title,description,date,address,time;
@@ -39,6 +40,7 @@ public class RegistereventsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registerevents);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         title=(EditText)findViewById(R.id.eventtitle);
         description=(EditText)findViewById(R.id.eventdescription);
@@ -49,7 +51,7 @@ public class RegistereventsActivity extends AppCompatActivity {
 
         auth=FirebaseAuth.getInstance();
         user=auth.getCurrentUser();
-        database= FirebaseDatabase.getInstance().getReference().child("Events");
+        database = FirebaseDatabase.getInstance().getReference().child("events");
 
         loadstates();
         loadCities();
@@ -75,7 +77,6 @@ public class RegistereventsActivity extends AppCompatActivity {
                     stateauto.setAdapter(adapter);
 
                     //  loadCitesforregistration();
-
                 }
             }
 
@@ -144,11 +145,6 @@ public class RegistereventsActivity extends AppCompatActivity {
             mdatabase.child("date").setValue(eventdate);
             mdatabase.child("address").setValue(eventadd);
             startActivity(new Intent(RegistereventsActivity.this,MainActivity.class));
-
-
-
-
-
         }else{
             Toast.makeText(RegistereventsActivity.this,"Enter all the entries",Toast.LENGTH_SHORT).show();
         }

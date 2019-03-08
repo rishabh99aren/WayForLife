@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -117,7 +116,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                Toast.makeText(getApplicationContext(), "You presed addEvents button", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(MainActivity.this, RetriveeventsActivity.class);
+                startActivity(i);
             }
         });
 

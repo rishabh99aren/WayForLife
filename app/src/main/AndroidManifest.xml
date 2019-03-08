@@ -48,8 +48,14 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".SplashActivity" />
-        <activity android:name=".RegistereventsActivity" />
-        <activity android:name=".RetriveeventsActivity" />
+        <activity
+            android:name=".RegistereventsActivity"
+            android:label="Add event"
+            android:parentActivityName=".RetriveeventsActivity" />
+        <activity
+            android:name=".RetriveeventsActivity"
+            android:label="Events"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".Detaileventsactivity"></activity>
     </application>
 
