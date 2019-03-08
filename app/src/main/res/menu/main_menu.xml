@@ -6,15 +6,18 @@
 
     <item
         android:id="@+id/signout"
-        android:title="SignOut"
+        android:title="Sign out"
         app:showAsAction="never"
         />
 
     <item
         android:id="@+id/aboutUs"
-        android:title="AboutUs"
+        android:title="About us"
         app:showAsAction="never"/>
 
-
+    <item
+        android:id="@+id/donate_us"
+        android:title="Donate us"
+        app:showAsAction="never"/>
 
 </menu>

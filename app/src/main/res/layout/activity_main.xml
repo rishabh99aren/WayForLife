@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_weight="1">
-
         <TextView
             android:id="@+id/textGrid"
             android:layout_width="322dp"
@@ -52,35 +51,26 @@
             android:layout_marginLeft="16dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="16dp"
-
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            android:onClick="addComplaint">
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/userReport"
-                    android:layout_width="wrap_content"
-                    android:layout_height="73dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher_background">
-
-                </ImageView>
+                android:orientation="vertical"
+                android:background="@drawable/background1">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="User Report"
+                    android:layout_height="wrap_content"
+                    android:text="Add complaint"
                     android:textAlignment="center"
+                    android:padding="8dp"
                     android:textColor="@android:color/black"
-                    android:textSize="10sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -97,31 +87,24 @@
             android:layout_marginRight="16dp"
 
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            android:onClick="openNewsFeed">
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/newsFeed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="77dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher_background" />
-
+                android:orientation="vertical"
+                android:background="@drawable/background1">
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="News Feed"
+                    android:padding="8dp"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="10sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -137,79 +120,31 @@
             android:layout_marginRight="16dp"
 
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            android:onClick="openBloodDonation">
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/bloodReq"
-                    android:layout_width="wrap_content"
-                    android:layout_height="73dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher_background">
-
-                </ImageView>
+                android:orientation="vertical"
+                android:background="@drawable/background1">
 
                 <TextView
-                    android:layout_width="47dp"
-                    android:layout_height="30dp"
-                    android:text="Blood Request"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Blood donation"
                     android:textAlignment="center"
+                    android:padding="8dp"
                     android:textColor="@android:color/black"
-                    android:textSize="10sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_columnWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="15dp"
-
-
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/donate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="77dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher_background" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Donate"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:layout_width="0dp"
@@ -220,74 +155,27 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="15dp"
             app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            android:onClick="openEvents">
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/calender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="73dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher_background">
-
-                </ImageView>
+                android:orientation="vertical"
+                android:background="@drawable/background1">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:text="Calender"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="105dp"
-            android:layout_columnWeight="1"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="15dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="vertical">
-
-
-                <ImageView
-                    android:id="@+id/addEvents"
-                    android:layout_width="wrap_content"
-                    android:layout_height="77dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_launcher_background" />
-
-                <TextView
-                    android:layout_width="79dp"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="Events"
                     android:textAlignment="center"
+                    android:padding="8dp"
                     android:textColor="@android:color/black"
-                    android:textSize="10sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
 
         </android.support.v7.widget.CardView>

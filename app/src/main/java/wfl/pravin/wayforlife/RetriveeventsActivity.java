@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -50,22 +51,6 @@ public class RetriveeventsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menuforevents, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.addevents:
-                startActivity(new Intent(RetriveeventsActivity.this, RegistereventsActivity.class));
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
         FirebaseDatabase.getInstance().getReference().child("events").addValueEventListener(new ValueEventListener() {
@@ -85,5 +70,9 @@ public class RetriveeventsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void addNewEvent(View view) {
+        startActivity(new Intent(RetriveeventsActivity.this, RegistereventsActivity.class));
     }
 }
